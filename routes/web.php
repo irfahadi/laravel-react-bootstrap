@@ -18,3 +18,8 @@ Route::get('reset-password', function() {
 Route::get('{slug}', function () {
     return view('index');
 })->where('slug', '^(?!api).*$');
+
+Auth::routes(['verify' => true]);
+Route::get('profile', function () {
+    // Only verified users may enter...
+})->middleware('verified');

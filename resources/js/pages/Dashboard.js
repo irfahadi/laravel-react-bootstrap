@@ -18,6 +18,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     Http.get(`${this.api}?status=open`)
       .then((response) => {
         const { data } = response.data;
@@ -82,9 +83,9 @@ class Dashboard extends Component {
 
   render() {
     const { data, error } = this.state;
-
-    return (
-      <div className="container py-5">
+    if(this.props.user.id==="VolejRejNm"){
+      return (
+        <div className="container py-5">
         <div className="add-todos mb-5">
           <h1 className="text-center mb-4">Add a To Do</h1>
           <form
@@ -144,8 +145,15 @@ class Dashboard extends Component {
             </tbody>
           </table>
         </div>
-      </div>
+      </div>     
     );
+  }
+  else{
+    return( <div className="container py-5">
+      tes
+    </div>)
+  }
+    
   }
 }
 

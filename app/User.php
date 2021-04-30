@@ -8,8 +8,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Custom\Hasher;
 use App\Todo;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\VerifyApiEmail;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
 
@@ -99,5 +101,9 @@ class User extends Authenticatable implements JWTSubject
         $email = $this->getEmailForPasswordReset();
         $user = $this::where('email', $email)->first();
         $this->notify(new ResetPasswordNotification($token, $user->id));
+    }
+    public function sendApiEmailVerificationNotification()
+    {
+    $this->notify(new VerifyApiEmail); // my notification
     }
 }

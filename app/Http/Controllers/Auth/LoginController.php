@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\APIController;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Auth\Events\Verified;
 
 class LoginController extends APIController
 {
+    use VerifiesEmails;
 
     /**
      * Get a JWT via given credentials.
@@ -24,16 +27,22 @@ class LoginController extends APIController
         // Get the user data.
         $user = auth()->user();
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Authorized.',
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => array(
-                'id' => $user->hashid,
-                'name' => $user->name
-            )
-        ], 200);
+        if($user->email_verified_at !== NULL){
+            return response()->json([
+                'status' => 200,
+                'message' => 'Authorized.',
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60,
+                'user' => array(
+                    'id' => $user->hashid,
+                    'name' => $user->name
+                )
+            ], 200);
+            }else{
+            return response()->json(['error'=>'Please Verify Email'], 401);
+            }
+            
+       
     }
 }
