@@ -32,6 +32,8 @@ Route::group([
     'prefix' => 'v1'
 ], function ($router) {
     Route::apiResource('todo', 'TodoController');
+    Route::apiResource('user', 'UserController');
+
 });
 
 // Not Found

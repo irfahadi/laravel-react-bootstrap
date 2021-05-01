@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Http from '../Http';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Http from "../Http";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -10,47 +10,47 @@ class Dashboard extends Component {
     this.state = {
       todo: null,
       error: false,
-      data: [],
+      data: []
     };
 
     // API endpoint.
-    this.api = '/api/v1/todo';
+    this.api = "/api/v1/todo";
   }
 
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
     Http.get(`${this.api}?status=open`)
-      .then((response) => {
+      .then(response => {
         const { data } = response.data;
         this.setState({
           data,
-          error: false,
+          error: false
         });
       })
       .catch(() => {
         this.setState({
-          error: 'Unable to fetch data.',
+          error: "Unable to fetch data."
         });
       });
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     const { todo } = this.state;
     this.addTodo(todo);
   };
 
-  addTodo = (todo) => {
+  addTodo = todo => {
     Http.post(this.api, { value: todo })
       .then(({ data }) => {
         const newItem = {
           id: data.id,
-          value: todo,
+          value: todo
         };
         const allTodos = [newItem, ...this.state.data];
         this.setState({ data: allTodos, todo: null });
@@ -58,108 +58,144 @@ class Dashboard extends Component {
       })
       .catch(() => {
         this.setState({
-          error: 'Sorry, there was an error saving your to do.',
+          error: "Sorry, there was an error saving your to do."
         });
       });
   };
 
-  closeTodo = (e) => {
+  closeTodo = e => {
     const { key } = e.target.dataset;
     const { data: todos } = this.state;
 
-    Http.patch(`${this.api}/${key}`, { status: 'closed' })
+    Http.patch(`${this.api}/${key}`, { status: "closed" })
       .then(() => {
         const updatedTodos = todos.filter(
-          (todo) => todo.id !== parseInt(key, 10),
+          todo => todo.id !== parseInt(key, 10)
         );
         this.setState({ data: updatedTodos });
       })
       .catch(() => {
         this.setState({
-          error: 'Sorry, there was an error closing your to do.',
+          error: "Sorry, there was an error closing your to do."
         });
       });
   };
 
   render() {
     const { data, error } = this.state;
-    if(this.props.user.id==="VolejRejNm"){
+    if (this.props.user.id !== "VolejRejNm") {
       return (
         <div className="container py-5">
-        <div className="add-todos mb-5">
-          <h1 className="text-center mb-4">Add a To Do</h1>
-          <form
-            method="post"
-            onSubmit={this.handleSubmit}
-            ref={(el) => {
-              this.todoForm = el;
-            }}
-          >
-            <div className="form-group">
-              <label htmlFor="addTodo">Add a New To Do</label>
-              <div className="d-flex">
-                <input
-                  id="addTodo"
-                  name="todo"
-                  className="form-control mr-3"
-                  placeholder="Build a To Do app..."
-                  onChange={this.handleChange}
-                />
-                <button type="submit" className="btn btn-primary">
-                  Add
-                </button>
+          <div className="add-todos mb-5">
+            <h1 className="text-center mb-4">Add a To Do</h1>
+            <form
+              method="post"
+              onSubmit={this.handleSubmit}
+              ref={el => {
+                this.todoForm = el;
+              }}
+            >
+              <div className="form-group">
+                <label htmlFor="addTodo">Add a New To Do</label>
+                <div className="d-flex">
+                  <input
+                    id="addTodo"
+                    name="todo"
+                    className="form-control mr-3"
+                    placeholder="Build a To Do app..."
+                    onChange={this.handleChange}
+                  />
+                  <button type="submit" className="btn btn-primary">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          {error && (
+            <div className="alert alert-warning" role="alert">
+              {error}
+            </div>
+          )}
+
+          <div className="todos">
+            <h1 className="text-center mb-4">Open To Dos</h1>
+            <table className="table table-striped">
+              <tbody>
+                <tr>
+                  <th>To Do</th>
+                  <th>Action</th>
+                </tr>
+                {data.map(todo => (
+                  <tr key={todo.id}>
+                    <td>{todo.value}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={this.closeTodo}
+                        data-key={todo.id}
+                      >
+                        Close
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="container py-5">
+          <div className="container">
+            <h2 className="text-center mb-4">Dashboard Admin</h2>
+            <div className="row row-cols-2 ">
+              <div className="col p-2 d-flex justify-content-center ">
+                <div
+                  style={{ width: 300, textAlign: "center" }}
+                  className="rounded bg-primary text-white p-5"
+                >
+                  <h4>Daftar Siswa Tapak Suci</h4>
+                </div>
+              </div>
+              <div className="col p-2 d-flex justify-content-center">
+                <div
+                  style={{ width: 300, textAlign: "center" }}
+                  className="rounded bg-success text-white p-5"
+                >
+                  <h4>Peserta UKT Tapak Suci</h4>
+                </div>
+              </div>
+              <div className="col p-2 d-flex justify-content-center">
+                <div
+                  style={{ width: 300, textAlign: "center" }}
+                  className="rounded bg-warning text-dark p-5"
+                >
+                  <h4>Jadwal UKT Tapak Suci</h4>
+                </div>
+              </div>
+              <div className="col p-2 d-flex justify-content-center">
+                <div
+                  style={{ width: 300, textAlign: "center" }}
+                  className="rounded bg-info text-dark p-5"
+                >
+                  <h4>Nilai UKT Tapak Suci</h4>
+                </div>
               </div>
             </div>
-          </form>
-        </div>
-
-        {error && (
-          <div className="alert alert-warning" role="alert">
-            {error}
           </div>
-        )}
-
-        <div className="todos">
-          <h1 className="text-center mb-4">Open To Dos</h1>
-          <table className="table table-striped">
-            <tbody>
-              <tr>
-                <th>To Do</th>
-                <th>Action</th>
-              </tr>
-              {data.map((todo) => (
-                <tr key={todo.id}>
-                  <td>{todo.value}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={this.closeTodo}
-                      data-key={todo.id}
-                    >
-                      Close
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
-      </div>     
-    );
-  }
-  else{
-    return( <div className="container py-5">
-      tes
-    </div>)
-  }
-    
+      );
+    }
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.Auth.isAuthenticated,
-  user: state.Auth.user,
+  user: state.Auth.user
 });
 
 export default connect(mapStateToProps)(Dashboard);
