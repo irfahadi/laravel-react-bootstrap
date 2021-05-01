@@ -7,6 +7,8 @@ import ResetPassword from "../pages/ResetPassword";
 import Archive from "../pages/Archive";
 import NoMatch from "../pages/NoMatch";
 import Siswa from "../pages/Siswa";
+import Peserta from "../pages/Peserta";
+import Profile from "../pages/Profile";
 
 const routes = [
   {
@@ -51,6 +53,18 @@ const routes = [
     exact: true,
     auth: true,
     component: Siswa
+  },
+  {
+    path: "/peserta",
+    exact: true,
+    auth: true,
+    component: Peserta
+  },
+  {
+    path: "/detail/:id",
+    exact: true,
+    auth: true,
+    component: Profile
   },
   {
     path: "",

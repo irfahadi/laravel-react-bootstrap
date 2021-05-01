@@ -1,122 +1,221 @@
 // Variables
 @import "variables";
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 // General
 img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .grid {
-    display: grid;
+  display: grid;
 }
 // Buttons
 $btn-size-base: 1rem;
 
 .btn {
-    transition: all 0.2s ease;
+  transition: all 0.2s ease;
 
-    &-loading {
-        pointer-events: none;
-        cursor: default;
-        color: transparent;
-        position: relative;
+  &-loading {
+    pointer-events: none;
+    cursor: default;
+    color: transparent;
+    position: relative;
 
-        &::after,
-        &::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: $btn-size-base * 1.5;
-            height: $btn-size-base * 1.5;
-            margin-top: -(($btn-size-base * 1.5)/2);
-            margin-left: -(($btn-size-base * 1.5)/2);
-            border-radius: 100%;
-            border: ($btn-size-base * 0.3) solid transparent;
-        }
-
-        &::before {
-            border-color: rgba(0, 0, 0, 0.15);
-        }
-
-        &::after {
-            border-color: white transparent transparent;
-            animation: btn-spin 0.6s linear;
-            animation-iteration-count: infinite;
-        }
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: $btn-size-base * 1.5;
+      height: $btn-size-base * 1.5;
+      margin-top: -(($btn-size-base * 1.5)/2);
+      margin-left: -(($btn-size-base * 1.5)/2);
+      border-radius: 100%;
+      border: ($btn-size-base * 0.3) solid transparent;
     }
+
+    &::before {
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    &::after {
+      border-color: white transparent transparent;
+      animation: btn-spin 0.6s linear;
+      animation-iteration-count: infinite;
+    }
+  }
 }
 
 @keyframes btn-spin {
-    from {
-        transform: rotate(0);
-    }
+  from {
+    transform: rotate(0);
+  }
 
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // Header
 header {
-    border-bottom: 1px solid #EBEDF8;
-    z-index: 10;
-    padding: 20px $grid-gutter-width/2;
+  border-bottom: 1px solid #ebedf8;
+  z-index: 10;
+  padding: 20px $grid-gutter-width/2;
+  @include media-breakpoint-up(md) {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    padding: 0;
+  }
+
+  .logo {
     @include media-breakpoint-up(md) {
-        display: grid;
-        grid-template-columns: 1fr 4fr;
-        padding: 0;
+      padding: 15px $grid-gutter-width/2;
     }
+  }
 
-    .logo {
-        @include media-breakpoint-up(md) {
-            padding: 15px $grid-gutter-width/2;
-        }
+  .navigation {
+    @include media-breakpoint-up(md) {
+      padding: 15px $grid-gutter-width/2;
     }
-
-    .navigation {
-        @include media-breakpoint-up(md) {
-            padding: 15px $grid-gutter-width/2;
-        }
-    }
+  }
 }
 
 // Login Page
 .section-about {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 // Login Form
 .section-login {
-    h4 {
-        margin-bottom: 1.5rem;
-        @include media-breakpoint-up(lg) {
-            text-align: center;
-        }
+  h4 {
+    margin-bottom: 1.5rem;
+    @include media-breakpoint-up(lg) {
+      text-align: center;
     }
+  }
 
-    .card-body {
-        padding: 3rem;
-    }
+  .card-body {
+    padding: 3rem;
+  }
 
-    .form-remember {
-        font-size: 0.9rem;
-    }
+  .form-remember {
+    font-size: 0.9rem;
+  }
 
-    .btn-primary {
-        width: 100%;
-        border-radius: 20px;
-    }
+  .btn-primary {
+    width: 100%;
+    border-radius: 20px;
+  }
 
-    .login-invite-text {
-        font-size: 0.9rem;
-    }
+  .login-invite-text {
+    font-size: 0.9rem;
+  }
 
-    .password-reset-link {
-        font-size: 0.9rem;
+  .password-reset-link {
+    font-size: 0.9rem;
+  }
+}
+
+.emp-profile {
+  padding: 3%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+.profile-img {
+  text-align: center;
+  img {
+    width: 70%;
+    height: 100%;
+  }
+  .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+  }
+  .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+  }
+}
+.profile-head {
+  h5 {
+    color: #333;
+  }
+  h6 {
+    color: #0062cc;
+  }
+}
+.profile-head {
+  .profile-edit-btn {
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+  }
+  .nav-tabs {
+    margin-bottom: 5%;
+    .nav-link {
+      font-weight: 600;
+      border: none;
     }
+    .nav-link.active {
+      border: none;
+      border-bottom: 2px solid #0062cc;
+    }
+  }
+}
+.proile-rating {
+  font-size: 12px;
+  color: #818182;
+  margin-top: 5%;
+  span {
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+.profile-work {
+  padding: 14%;
+  margin-top: -15%;
+  p {
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+  }
+  a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  ul {
+    list-style: none;
+  }
+}
+.profile-tab {
+  label {
+    font-weight: 600;
+  }
+  p {
+    font-weight: 600;
+    color: #0062cc;
+  }
 }

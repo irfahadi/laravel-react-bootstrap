@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import Http from "../Http";
 
-class Siswa extends Component {
+class Archive extends Component {
   constructor(props) {
     super(props);
 
@@ -16,11 +16,11 @@ class Siswa extends Component {
     };
 
     // API Endpoint
-    this.api = "/api/v1/user";
+    this.api = "/api/v1/todo";
   }
 
   componentDidMount() {
-    Http.get(this.api)
+    Http.get(`${this.api}/1`)
       .then(response => {
         const { data } = response.data;
         // const apiMore = response.data.links.next;
@@ -38,17 +38,17 @@ class Siswa extends Component {
       });
   }
 
-  deleteuser = e => {
+  deleteTodo = e => {
     const { key } = e.target.dataset;
-    const { data: users } = this.state;
+    const { data: todos } = this.state;
 
     Http.delete(`${this.api}/${key}`)
       .then(response => {
         if (response.status === 204) {
-          const index = users.findIndex(
-            user => parseInt(user.id, 10) === parseInt(key, 10)
+          const index = todos.findIndex(
+            todo => parseInt(todo.id, 10) === parseInt(key, 10)
           );
-          const update = [...users.slice(0, index), ...users.slice(index + 1)];
+          const update = [...todos.slice(0, index), ...todos.slice(index + 1)];
           this.setState({ data: update });
         }
       })
@@ -59,12 +59,12 @@ class Siswa extends Component {
 
   render() {
     const { loading, error, apiMore } = this.state;
-    const users = Array.from(this.state.data);
+    const todos = Array.from(this.state.data);
 
     return (
       <div className="container py-5">
-        <h1 className="text-center mb-4">Daftar Siswa Tapak Suci</h1>
-        {console.log(this.state.data)}
+        <h1 className="text-center mb-4">Peserta UKT Tapak Suci</h1>
+
         {error && (
           <div className="text-center">
             <p>{error}</p>
@@ -74,28 +74,25 @@ class Siswa extends Component {
         <table className="table">
           <tbody>
             <tr>
-              {/* <th>Time</th> */}
-              <th>Name</th>
-              <th>Email</th>
+              <th>Nama</th>
+              <th>Asal Sekolah</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
-            {users.map(user => (
-              <tr key={user.id}>
-                {/*                  */}
-                <td>{user.name}</td>
-                <td>{user.email}</td>
+            {todos.map(todo => (
+              <tr key={todo.id}>
+                <td>{todo.nama}</td>
+                <td>{todo.sekolah}</td>
+                <td>{todo.status}</td>
                 <td>
-                  {user.email_verified_at === null
-                    ? "Belum Verifikasi"
-                    : "Sudah Verifikasi"}
-                  {/* <button
+                  <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={this.deleteuser}
-                    data-key={user.id}
+                    // onClick={this.deleteTodo}
+                    data-key={todo.id}
                   >
-                    Delete
-                  </button> */}
+                    Detail
+                  </button>
                 </td>
               </tr>
             ))}
@@ -111,4 +108,4 @@ const mapStateToProps = state => ({
   user: state.Auth.user
 });
 
-export default connect(mapStateToProps)(Siswa);
+export default connect(mapStateToProps)(Archive);

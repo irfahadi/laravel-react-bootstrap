@@ -23,21 +23,21 @@ class TodoController extends ApiController
             return $this->responseUnauthorized();
         }
 
-        $collection = Todo::where('user_id', $user->id);
+        $collection = Todo::all();
 
-        // Check query string filters.
-        if ($status = $request->query('status')) {
-            if ('open' === $status || 'closed' === $status) {
-                $collection = $collection->where('status', $status);
-            }
-        }
+        // // Check query string filters.
+        // if ($status = $request->query('status')) {
+        //     if ('open' === $status || 'closed' === $status) {
+        //         $collection = $collection->where('status', $status);
+        //     }
+        // }
 
-        $collection = $collection->latest()->paginate();
+        // $collection = $collection->latest()->paginate();
 
-        // Appends "status" to pagination links if present in the query.
-        if ($status) {
-            $collection = $collection->appends('status', $status);
-        }
+        // // Appends "status" to pagination links if present in the query.
+        // if ($status) {
+        //     $collection = $collection->appends('status', $status);
+        // }
 
         return new TodoCollection($collection);
     }
@@ -86,18 +86,18 @@ class TodoController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         // Get user from $request token.
         if (! $user = auth()->setRequest($request)->user()) {
             return $this->responseUnauthorized();
         }
 
-        // User can only acccess their own data.
-        if ($todo->user_id === $user->id) {
-            return $this->responseUnauthorized();
-        }
-
+        // // User can only acccess their own data.
+        // if ($todo->user_id === $user->id) {
+        //     return $this->responseUnauthorized();
+        // }
+        
         $todo = Todo::where('id', $id)->firstOrFail();
         return new TodoResource($todo);
     }
