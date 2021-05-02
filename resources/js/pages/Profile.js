@@ -1,31 +1,83 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import classNames from "classnames";
+import Http from "../Http";
 
-export default class Profile extends Component {
+class Profile extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true,
+      data: {},
+      apiMore: "",
+      moreLoaded: false,
+      error: false
+    };
+
+    // API Endpoint
+    this.api = "/api/v1/todo";
+  }
+
+  componentDidMount() {
+    Http.get(`${this.api}/${this.props.user.id}`)
+      .then(response => {
+        const { data } = response.data;
+        // const apiMore = response.data.links.next;
+        this.setState({
+          data,
+          // apiMore,
+          loading: false,
+          error: false
+        });
+      })
+      .catch(() => {
+        this.setState({
+          error: "Unable to fetch data."
+        });
+      });
+  }
+
   render() {
     return (
       <div className="container emp-profile">
-        <form method="post">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="profile-img">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
-                  alt=""
-                />
-                <div className="file btn btn-lg btn-primary">
+        <div className="row">
+          <div className="col-md-4">
+            <div className="profile-img">
+              <img src={this.state.data.profil} alt="" />
+              {/* <div className="file btn btn-lg btn-primary">
                   Change Photo
                   <input type="file" name="file" />
+                </div> */}
+            </div>
+          </div>
+          <div className="col-md-8">
+            <div className="profile-head">
+              <h5>{this.state.data.nama}</h5>
+              <h6>{this.state.data.status}</h6>
+              <div className="row">
+                <div className="col-md-6">
+                  <p className="proile-rating">
+                    Nilai Tingkat Dasar :{" "}
+                    <span>{this.state.data.nilai_dasar}</span>
+                  </p>
+                  <p className="proile-rating">
+                    Nilai Tingkat 1 : <span>{this.state.data.nilai_1}</span>
+                  </p>
+                  <p className="proile-rating">
+                    Nilai Tingkat 2 : <span>{this.state.data.nilai_2}</span>
+                  </p>
+                </div>
+                <div className="col-md-6">
+                  <p className="proile-rating">
+                    Nilai Tingkat 3 : <span>{this.state.data.nilai_3}</span>
+                  </p>
+                  <p className="proile-rating">
+                    Nilai Tingkat 4 : <span>{this.state.data.nilai_4}</span>
+                  </p>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6">
-              <div className="profile-head">
-                <h5>Kshiti Ghelani</h5>
-                <h6>Web Developer and Designer</h6>
-                <p className="proile-rating">
-                  RANKINGS : <span>8/10</span>
-                </p>
-                <ul className="nav nav-tabs" id="myTab" role="tablist">
+              {/* <ul className="nav nav-tabs" id="myTab" role="tablist">
                   <li className="nav-item">
                     <a
                       className="nav-link active"
@@ -52,148 +104,77 @@ export default class Profile extends Component {
                       Timeline
                     </a>
                   </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-md-2">
-              <input
-                type="submit"
-                className="profile-edit-btn"
-                name="btnAddMore"
-                value="Edit Profile"
-              />
+                </ul> */}
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-4">
-              <div className="profile-work">
-                <p>WORK LINK</p>
-                <a href="">Website Link</a>
-                <br />
-                <a href="">Bootsnipp Profile</a>
-                <br />
-                <a href="">Bootply Profile</a>
-                <p>SKILLS</p>
-                <a href="">Web Designer</a>
-                <br />
-                <a href="">Web Developer</a>
-                <br />
-                <a href="">WordPress</a>
-                <br />
-                <a href="">WooCommerce</a>
-                <br />
-                <a href="">PHP, .Net</a>
-                <br />
-              </div>
-            </div>
-            <div className="col-md-8">
-              <div className="tab-content profile-tab" id="myTabContent">
-                <div
-                  className="tab-pane fade show active"
-                  id="home"
-                  role="tabpanel"
-                  aria-labelledby="home-tab"
-                >
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>User Id</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>Kshiti123</p>
-                    </div>
+        </div>
+        <div className="row mt-2">
+          <div className="col-md-6">
+            <div className="tab-content profile-tab" id="myTabContent">
+              <div
+                className="tab-pane fade show active mt-4"
+                id="home"
+                role="tabpanel"
+                aria-labelledby="home-tab"
+              >
+                <div className="row">
+                  <div className="col-md-6">
+                    <label>Tempat, Tangal Lahir</label>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Name</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>Kshiti Ghelani</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Email</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>kshitighelani@gmail.com</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Phone</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>123 456 7890</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Profession</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>Web Developer and Designer</p>
-                    </div>
+                  <div className="col-md-6">
+                    <p>{this.state.data.ttl}</p>
                   </div>
                 </div>
-                <div
-                  className="tab-pane fade"
-                  id="profile"
-                  role="tabpanel"
-                  aria-labelledby="profile-tab"
-                >
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Experience</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>Expert</p>
-                    </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <label>Asal Sekolah</label>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Hourly Rate</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>10$/hr</p>
-                    </div>
+                  <div className="col-md-6">
+                    <p>{this.state.data.sekolah}</p>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Total Projects</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>230</p>
-                    </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <label>Nomor Telepon</label>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>English Level</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>Expert</p>
-                    </div>
+                  <div className="col-md-6">
+                    <p>{this.state.data.telepon}</p>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Availability</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>6 months</p>
-                    </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <label>Unit</label>
                   </div>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <label>Your Bio</label>
-                      <br />
-                      <p>Your detail description</p>
-                    </div>
+                  <div className="col-md-6">
+                    <p>{this.state.data.unit}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </form>
+          <div className="col-md-6">
+            <h6 className="text-center">Foto Akte Kelahiran</h6>
+            <div className="profile-img ">
+              <img src={this.state.data.akte} alt="" />
+            </div>
+          </div>
+          <div className="col-md-2 mt-2">
+            <input
+              type="submit"
+              className="profile-edit-btn"
+              name="btnAddMore"
+              value="Edit Profile"
+            />
+          </div>
+        </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.Auth.isAuthenticated,
+  user: state.Auth.user
+});
+
+export default connect(mapStateToProps)(Profile);

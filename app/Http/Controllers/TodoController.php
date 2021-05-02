@@ -8,6 +8,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Resources\TodoCollection;
 use App\Http\Resources\TodoResource;
 use App\Todo;
+use App\Custom\Hasher;
 
 class TodoController extends ApiController
 {
@@ -97,8 +98,8 @@ class TodoController extends ApiController
         // if ($todo->user_id === $user->id) {
         //     return $this->responseUnauthorized();
         // }
-        
-        $todo = Todo::where('id', $id)->firstOrFail();
+        // var_dump(Hasher::decode($id));
+        $todo = Todo::where('user_id', Hasher::decode($id))->firstOrFail();
         return new TodoResource($todo);
     }
 

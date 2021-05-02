@@ -61,7 +61,7 @@ const routes = [
     component: Peserta
   },
   {
-    path: "/detail/:id",
+    path: "/:id",
     exact: true,
     auth: true,
     component: Profile

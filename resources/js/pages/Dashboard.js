@@ -95,7 +95,97 @@ class Dashboard extends Component {
                 this.todoForm = el;
               }}
             >
-              <div className="form-group">
+              <div class="mb-3">
+                <label class="form-label">Nama</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.handleChange}
+                  name="nama"
+                  placeholder="Masukan Nama Anda"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Tempat, Tanggal Lahir</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.handleChange}
+                  name="ttl"
+                  placeholder="Masukan Tempat, Tanggal Lahir Anda"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Asal Sekolah</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.handleChange}
+                  name="sekolah"
+                  placeholder="Masukan Asal Sekolah Anda"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Nomor Telepon</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.handleChange}
+                  name="telepon"
+                  placeholder="Masukan Nomor Telepon Anda"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Alamat</label>
+                <textarea
+                  className="form-control"
+                  onChange={this.handleChange}
+                  name="alamat"
+                  rows="3"
+                  placeholder="Masukan Alamat Anda"
+                  required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Unit Latihan</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.handleChange}
+                  name="unit"
+                  placeholder="Masukan Unit Latihan Anda"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">
+                  Foto Profil
+                </label>
+                <input
+                  class="form-control"
+                  type="file"
+                  name="profil"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">
+                  Foto Akte Kelahiran
+                </label>
+                <input
+                  class="form-control"
+                  type="file"
+                  name="akte"
+                  onChange={this.handleChange}
+                  required
+                />
+              </div>
+              {/* <div className="form-group">
                 <label htmlFor="addTodo">Add a New To Do</label>
                 <div className="d-flex">
                   <input
@@ -109,41 +199,8 @@ class Dashboard extends Component {
                     Add
                   </button>
                 </div>
-              </div>
+              </div> */}
             </form>
-          </div>
-
-          {error && (
-            <div className="alert alert-warning" role="alert">
-              {error}
-            </div>
-          )}
-
-          <div className="todos">
-            <h1 className="text-center mb-4">Open To Dos</h1>
-            <table className="table table-striped">
-              <tbody>
-                <tr>
-                  <th>To Do</th>
-                  <th>Action</th>
-                </tr>
-                {data.map(todo => (
-                  <tr key={todo.id}>
-                    <td>{todo.value}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={this.closeTodo}
-                        data-key={todo.id}
-                      >
-                        Close
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       );
