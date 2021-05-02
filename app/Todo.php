@@ -13,9 +13,22 @@ class Todo extends Model
      * @var array
      */
     protected $fillable = [
-        'value',
+        'user_id',
+        'nama',
+        'ttl',
+        'sekolah',
+        'telepon',
+        'alamat',
+        'unit',
         'status',
-        'user_id'
+        'jadwal_id',
+        'nilai_dasar',
+        'nilai_1',
+        'nilai_2',
+        'nilai_3',
+        'nilai_4',
+        'profil',
+        'akte',
     ];
 
     /**

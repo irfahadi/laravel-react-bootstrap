@@ -8,9 +8,16 @@ class Dashboard extends Component {
 
     // Initial state.
     this.state = {
-      todo: null,
       error: false,
-      data: []
+      nama: "",
+      ttl: "",
+      sekolah: "",
+      telepon: "",
+      alamat: "",
+      unit: "",
+      status: "Tingkat Dasar",
+      profil: "",
+      akte: ""
     };
 
     // API endpoint.
@@ -18,42 +25,44 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-    Http.get(`${this.api}?status=open`)
-      .then(response => {
-        const { data } = response.data;
-        this.setState({
-          data,
-          error: false
-        });
-      })
-      .catch(() => {
-        this.setState({
-          error: "Unable to fetch data."
-        });
-      });
+    // Http.get(`${this.api}?status=open`)
+    //   .then(response => {
+    //     const { data } = response.data;
+    //     this.setState({
+    //       data,
+    //       error: false
+    //     });
+    //   })
+    //   .catch(() => {
+    //     this.setState({
+    //       error: "Unable to fetch data."
+    //     });
+    //   });
   }
 
   handleChange = e => {
     const { name, value } = e.target;
+
     this.setState({ [name]: value });
+    console.log(this.state);
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const { todo } = this.state;
-    this.addTodo(todo);
-  };
-
-  addTodo = todo => {
-    Http.post(this.api, { value: todo })
-      .then(({ data }) => {
-        const newItem = {
-          id: data.id,
-          value: todo
-        };
-        const allTodos = [newItem, ...this.state.data];
-        this.setState({ data: allTodos, todo: null });
+    Http.post(this.api, {
+      nama: this.state.nama,
+      ttl: this.state.ttl,
+      sekolah: this.state.sekolah,
+      telepon: this.state.telepon,
+      alamat: this.state.alamat,
+      unit: this.state.unit,
+      status: this.state.status,
+      profil: this.state.profil,
+      akte: this.state.akte
+    })
+      .then(() => {
+        // const allTodos = [newItem, ...this.state.data];
+        // this.setState({ data: allTodos, todo: null });
         this.todoForm.reset();
       })
       .catch(() => {
@@ -87,7 +96,7 @@ class Dashboard extends Component {
       return (
         <div className="container py-5">
           <div className="add-todos mb-5">
-            <h1 className="text-center mb-4">Add a To Do</h1>
+            <h1 className="text-center mb-4">Form Peserta UKT Tapak Suci</h1>
             <form
               method="post"
               onSubmit={this.handleSubmit}
@@ -185,6 +194,9 @@ class Dashboard extends Component {
                   required
                 />
               </div>
+              <button className="btn btn-primary" type="submit">
+                SUBMIT
+              </button>
               {/* <div className="form-group">
                 <label htmlFor="addTodo">Add a New To Do</label>
                 <div className="d-flex">

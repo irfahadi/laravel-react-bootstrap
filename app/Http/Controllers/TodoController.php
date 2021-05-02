@@ -57,19 +57,33 @@ class TodoController extends ApiController
         }
 
         // Validate all the required parameters have been sent.
-        $validator = Validator::make($request->all(), [
-            'value' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'value' => 'required',
+        // ]);
 
-        if ($validator->fails()) {
-            return $this->responseUnprocessable($validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     return $this->responseUnprocessable($validator->errors());
+        // }
 
         // Warning: Data isn't being fully sanitized yet.
         try {
             $todo = Todo::create([
                 'user_id' => $user->id,
-                'value' => request('value'),
+                'nama' => request('nama'),
+                'ttl' => request('ttl'),
+                'sekolah' => request('sekolah'),
+                'telepon' => request('telepon'),
+                'alamat' => request('alamat'),
+                'unit' => request('unit'),
+                'status' => request('status'),
+                'jadwal_id' => 0,
+                'nilai_dasar' => '',
+                'nilai_1' => '',
+                'nilai_2' => '',
+                'nilai_3' => '',
+                'nilai_4' => '',
+                'profil' => request('profil'),
+                'akte' => request('akte'),
             ]);
             return response()->json([
                 'status' => 201,

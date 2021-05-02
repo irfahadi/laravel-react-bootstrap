@@ -47,7 +47,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function todos()
     {
-        return $this->hasMany(Todo::class);
+        return $this->hasOne(Todo::class);
     }
 
     /**
