@@ -33,7 +33,7 @@ Route::group([
 ], function ($router) {
     Route::apiResource('todo', 'TodoController');
     Route::apiResource('user', 'UserController');
-
+    Route::apiResource('jadwal', 'JadwalController');
 });
 
 // Not Found

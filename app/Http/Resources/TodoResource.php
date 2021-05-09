@@ -26,7 +26,7 @@ class TodoResource extends ApiResource
             'telepon' => $this->telepon,
             'alamat' => $this->alamat,
             'unit' => $this->unit,
-            'jadwal' => $this->jadwal,
+            'jadwal' => $this->jadwal_id,
             'nilai_dasar' => $this->nilai_dasar,
             'nilai_1' => $this->nilai_1,
             'nilai_2' => $this->nilai_2,

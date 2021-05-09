@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Jadwal;
 
 class Todo extends Model
 {
@@ -38,6 +39,7 @@ class Todo extends Model
      */
     protected $casts = [
         'user_id' => 'integer',
+        'jadwal_id' => 'integer',
     ];
 
     /**
@@ -48,5 +50,9 @@ class Todo extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'jadwal_id');
     }
 }
