@@ -17,5 +17,6 @@ class JadwalResource extends ApiResource
         return [
             'id' => $this->id,
             'jadwal' => $this->jadwal,
+        ];
     }
 }

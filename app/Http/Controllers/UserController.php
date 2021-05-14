@@ -8,6 +8,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\User;
+use Carbon\Carbon;
 
 class UserController extends ApiController
 {
@@ -101,34 +102,29 @@ class UserController extends ApiController
     public function update(Request $request, $id)
     {
         // Get user from $request token.
-        if (! $user = auth()->setRequest($request)->user()) {
-            return $this->responseUnauthorized();
-        }
+        // if (! $user = auth()->setRequest($request)->user()) {
+        //     return $this->responseUnauthorized();
+        // }
 
         // Validates data.
-        $validator = Validator::make($request->all(), [
-            'value' => 'string',
-            'status' => 'in:closed,open',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'value' => 'string',
+        //     'status' => 'in:closed,open',
+        // ]);
 
-        if ($validator->fails()) {
-            return $this->responseUnprocessable($validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     return $this->responseUnprocessable($validator->errors());
+        // }
 
         try {
             $User = User::where('id', $id)->firstOrFail();
-            if ($User->user_id === $user->id) {
-                if (request('value')) {
-                    $User->value = request('value');
-                }
-                if (request('status')) {
-                    $User->status = request('status');
-                }
-                $User->save();
-                return $this->responseResourceUpdated();
-            } else {
-                return $this->responseUnauthorized();
-            }
+            // if (request('email_verified_at')) {
+            // }
+            $timestamp = $timestamp = Carbon::now();
+            $User->email_verified_at = $timestamp->format('Y-m-d H:i:s');
+            $User->remember_token = null;
+            $User->save();
+            return $this->responseResourceUpdated();
         } catch (Exception $e) {
             return $this->responseServerError('Error updating resource.');
         }

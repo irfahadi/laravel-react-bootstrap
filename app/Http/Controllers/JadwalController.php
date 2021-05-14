@@ -93,34 +93,27 @@ class JadwalController extends ApiController
     public function update(Request $request, $id)
     {
         // Get user from $request token.
-        if (! $user = auth()->setRequest($request)->user()) {
-            return $this->responseUnauthorized();
-        }
+        // if (! $user = auth()->setRequest($request)->user()) {
+        //     return $this->responseUnauthorized();
+        // }
 
         // Validates data.
-        $validator = Validator::make($request->all(), [
-            'value' => 'string',
-            'status' => 'in:closed,open',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'value' => 'string',
+        //     'status' => 'in:closed,open',
+        // ]);
 
-        if ($validator->fails()) {
-            return $this->responseUnprocessable($validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     return $this->responseUnprocessable($validator->errors());
+        // }
 
         try {
             $Jadwal = Jadwal::where('id', $id)->firstOrFail();
-            if ($Jadwal->user_id === $user->id) {
-                if (request('value')) {
-                    $Jadwal->value = request('value');
-                }
-                if (request('status')) {
-                    $Jadwal->status = request('status');
+                if (request('jadwal')) {
+                    $Jadwal->jadwal = request('jadwal');
                 }
                 $Jadwal->save();
                 return $this->responseResourceUpdated();
-            } else {
-                return $this->responseUnauthorized();
-            }
         } catch (Exception $e) {
             return $this->responseServerError('Error updating resource.');
         }

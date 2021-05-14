@@ -127,34 +127,39 @@ class TodoController extends ApiController
     public function update(Request $request, $id)
     {
         // Get user from $request token.
-        if (! $user = auth()->setRequest($request)->user()) {
-            return $this->responseUnauthorized();
-        }
+        // if (! $user = auth()->setRequest($request)->user()) {
+        //     return $this->responseUnauthorized();
+        // }
 
         // Validates data.
-        $validator = Validator::make($request->all(), [
-            'value' => 'string',
-            'status' => 'in:closed,open',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'value' => 'string',
+        //     'status' => 'in:closed,open',
+        // ]);
 
-        if ($validator->fails()) {
-            return $this->responseUnprocessable($validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     return $this->responseUnprocessable($validator->errors());
+        // }
 
         try {
             $todo = Todo::where('id', $id)->firstOrFail();
-            if ($todo->user_id === $user->id) {
-                if (request('value')) {
-                    $todo->value = request('value');
-                }
-                if (request('status')) {
-                    $todo->status = request('status');
-                }
-                $todo->save();
-                return $this->responseResourceUpdated();
-            } else {
-                return $this->responseUnauthorized();
+            if (request('nilai_dasar')) {
+                $todo->nilai_dasar = request('nilai_dasar');
             }
+            if (request('nilai_1')) {
+                $todo->nilai_1 = request('nilai_1');
+            }
+            if (request('nilai_2')) {
+                $todo->nilai_2 = request('nilai_2');
+            }
+            if (request('nilai_3')) {
+                $todo->nilai_3 = request('nilai_3');
+            }
+            if (request('nilai_4')) {
+                $todo->nilai_4 = request('nilai_4');
+            }
+            $todo->save();
+            return $this->responseResourceUpdated();
         } catch (Exception $e) {
             return $this->responseServerError('Error updating resource.');
         }

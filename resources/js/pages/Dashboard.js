@@ -72,23 +72,23 @@ class Dashboard extends Component {
       });
   };
 
-  closeTodo = e => {
-    const { key } = e.target.dataset;
-    const { data: todos } = this.state;
+  // closeTodo = e => {
+  //   const { key } = e.target.dataset;
+  //   const { data: todos } = this.state;
 
-    Http.patch(`${this.api}/${key}`, { status: "closed" })
-      .then(() => {
-        const updatedTodos = todos.filter(
-          todo => todo.id !== parseInt(key, 10)
-        );
-        this.setState({ data: updatedTodos });
-      })
-      .catch(() => {
-        this.setState({
-          error: "Sorry, there was an error closing your to do."
-        });
-      });
-  };
+  //   Http.patch(`${this.api}/${key}`, { status: "closed" })
+  //     .then(() => {
+  //       const updatedTodos = todos.filter(
+  //         todo => todo.id !== parseInt(key, 10)
+  //       );
+  //       this.setState({ data: updatedTodos });
+  //     })
+  //     .catch(() => {
+  //       this.setState({
+  //         error: "Sorry, there was an error closing your to do."
+  //       });
+  //     });
+  // };
 
   render() {
     const { data, error } = this.state;

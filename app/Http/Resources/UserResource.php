@@ -21,7 +21,7 @@ class UserResource extends ApiResource
             'user' => Hasher::encode($this->user_id),
             'name' => $this->name,
             'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
+            'email_verified_at' => (string)$this->email_verified_at->toDateTimeString(),
         ];
     }
 }
