@@ -8,6 +8,7 @@ use App\Http\Controllers\APIController;
 use App\Http\Resources\TodoCollection;
 use App\Http\Resources\TodoResource;
 use App\Todo;
+use App\User;
 use App\Custom\Hasher;
 
 class TodoController extends ApiController
@@ -17,31 +18,31 @@ class TodoController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        // Get user from $request token.
-        if (! $user = auth()->setRequest($request)->user()) {
-            return $this->responseUnauthorized();
-        }
+    // public function index(Request $request)
+    // {
+    //     // Get user from $request token.
+    //     if (! $user = auth()->setRequest($request)->user()) {
+    //         return $this->responseUnauthorized();
+    //     }
 
-        $collection = Todo::all();
+    //     $collection = Todo::all();
 
-        // // Check query string filters.
-        // if ($status = $request->query('status')) {
-        //     if ('open' === $status || 'closed' === $status) {
-        //         $collection = $collection->where('status', $status);
-        //     }
-        // }
+    //     // // Check query string filters.
+    //     // if ($status = $request->query('status')) {
+    //     //     if ('open' === $status || 'closed' === $status) {
+    //     //         $collection = $collection->where('status', $status);
+    //     //     }
+    //     // }
 
-        // $collection = $collection->latest()->paginate();
+    //     // $collection = $collection->latest()->paginate();
 
-        // // Appends "status" to pagination links if present in the query.
-        // if ($status) {
-        //     $collection = $collection->appends('status', $status);
-        // }
+    //     // // Appends "status" to pagination links if present in the query.
+    //     // if ($status) {
+    //     //     $collection = $collection->appends('status', $status);
+    //     // }
 
-        return new TodoCollection($collection);
-    }
+    //     return new TodoCollection($collection);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -56,6 +57,8 @@ class TodoController extends ApiController
             return $this->responseUnauthorized();
         }
 
+        // return dd($request->all()); 
+
         // Validate all the required parameters have been sent.
         // $validator = Validator::make($request->all(), [
         //     'value' => 'required',
@@ -64,6 +67,20 @@ class TodoController extends ApiController
         // if ($validator->fails()) {
         //     return $this->responseUnprocessable($validator->errors());
         // }
+        $path = storage_path("app/public/upload");
+        var_dump($akte = $request->file("akte"));
+        if($request->hasFile("akte")){
+            global $save;
+            $akte = $request->file("akte");
+
+            $move = $akte->move($path."/"."akte/",$akte->getClientOriginalName());
+
+            $save = $path."/"."akte/".$akte->getClientOriginalName();
+        }
+        if($request->hasFile("profil")){
+        }
+
+        return dd($request->all());
 
         // Warning: Data isn't being fully sanitized yet.
         try {
@@ -83,7 +100,7 @@ class TodoController extends ApiController
                 'nilai_3' => '',
                 'nilai_4' => '',
                 'profil' => request('profil'),
-                'akte' => request('akte'),
+                'akte' => $save,
             ]);
             return response()->json([
                 'status' => 201,
@@ -92,6 +109,18 @@ class TodoController extends ApiController
             ], 201);
         } catch (Exception $e) {
             return $this->responseServerError('Error creating resource.');
+        }
+
+        try {
+            $User = User::where('id', $user->id)->firstOrFail();
+            // if (request('email_verified_at')) {
+            // }
+            $timestamp = $timestamp = Carbon::now();
+            $User->peserta_created_at = $timestamp->format('Y-m-d H:i:s');
+            $User->save();
+            return $this->responseResourceUpdated();
+        } catch (Exception $e) {
+            return $this->responseServerError('Error updating resource.');
         }
     }
 
@@ -157,6 +186,9 @@ class TodoController extends ApiController
             }
             if (request('nilai_4')) {
                 $todo->nilai_4 = request('nilai_4');
+            }
+            if (request('jadwal_id')) {
+                $todo->jadwal_id = request('jadwal_id');
             }
             $todo->save();
             return $this->responseResourceUpdated();

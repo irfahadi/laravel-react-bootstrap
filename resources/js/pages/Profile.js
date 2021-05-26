@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import Http from "../Http";
+import ModalDaftar from "../components/Modal";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 class Profile extends Component {
   constructor(props) {
@@ -10,7 +13,6 @@ class Profile extends Component {
     this.state = {
       loading: true,
       data: {},
-      apiMore: "",
       moreLoaded: false,
       error: false
     };
@@ -18,9 +20,14 @@ class Profile extends Component {
     // API Endpoint
     this.api = "/api/v1/todo";
   }
+  static propTypes = {
+    location: PropTypes.object.isRequired
+  };
 
   componentDidMount() {
-    Http.get(`${this.api}/${this.props.user.id}`)
+    const id =
+      this.props.location.pathname.replace("/", "") || this.props.user.id;
+    Http.get(`${this.api}/${id}`)
       .then(response => {
         const { data } = response.data;
         // const apiMore = response.data.links.next;
@@ -55,56 +62,6 @@ class Profile extends Component {
             <div className="profile-head">
               <h5>{this.state.data.nama}</h5>
               <h6>{this.state.data.status}</h6>
-              <div className="row">
-                <div className="col-md-6">
-                  <p className="proile-rating">
-                    Nilai Tingkat Dasar :{" "}
-                    <span>{this.state.data.nilai_dasar}</span>
-                  </p>
-                  <p className="proile-rating">
-                    Nilai Tingkat 1 : <span>{this.state.data.nilai_1}</span>
-                  </p>
-                  <p className="proile-rating">
-                    Nilai Tingkat 2 : <span>{this.state.data.nilai_2}</span>
-                  </p>
-                </div>
-                <div className="col-md-6">
-                  <p className="proile-rating">
-                    Nilai Tingkat 3 : <span>{this.state.data.nilai_3}</span>
-                  </p>
-                  <p className="proile-rating">
-                    Nilai Tingkat 4 : <span>{this.state.data.nilai_4}</span>
-                  </p>
-                </div>
-              </div>
-              {/* <ul className="nav nav-tabs" id="myTab" role="tablist">
-                  <li className="nav-item">
-                    <a
-                      className="nav-link active"
-                      id="home-tab"
-                      data-toggle="tab"
-                      href="#home"
-                      role="tab"
-                      aria-controls="home"
-                      aria-selected="true"
-                    >
-                      About
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      id="profile-tab"
-                      data-toggle="tab"
-                      href="#profile"
-                      role="tab"
-                      aria-controls="profile"
-                      aria-selected="false"
-                    >
-                      Timeline
-                    </a>
-                  </li>
-                </ul> */}
             </div>
           </div>
         </div>
@@ -161,10 +118,80 @@ class Profile extends Component {
           <div className="col-md-2 mt-2">
             <input
               type="submit"
-              className="profile-edit-btn"
+              className="btn btn-primary"
               name="btnAddMore"
-              value="Edit Profile"
+              value="EDIT PROFIL"
             />
+          </div>
+        </div>
+        <div className="row mt-2">
+          <div className="col-md-2">
+            <ModalDaftar id={this.state.data.id} />
+          </div>
+          <div className="col-md-2">
+            {this.state.data.nilai_dasar !== `` && (
+              <a href={this.state.data.nilai_dasar} download>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  name="nilai_dasar"
+                >
+                  DOWNLOAD NILAI TINGKAT DASAR
+                </button>
+              </a>
+            )}
+          </div>
+          <div className="col-md-2">
+            {this.state.data.nilai_1 !== `` && (
+              <a href={this.state.data.nilai_1} download>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  name="nilai_1"
+                >
+                  DOWNLOAD NILAI TINGKAT SATU
+                </button>
+              </a>
+            )}
+          </div>
+          <div className="col-md-2">
+            {this.state.data.nilai_2 !== `` && (
+              <a href={this.state.data.nilai_2} download>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  name="nilai_2"
+                >
+                  DOWNLOAD NILAI TINGKAT DUA
+                </button>
+              </a>
+            )}
+          </div>
+          <div className="col-md-2">
+            {this.state.data.nilai_3 !== `` && (
+              <a href={this.state.data.nilai_3} download>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  name="nilai_3"
+                >
+                  DOWNLOAD NILAI TINGKAT TIGA
+                </button>
+              </a>
+            )}
+          </div>
+          <div className="col-md-2">
+            {this.state.data.nilai_4 !== `` && (
+              <a href={this.state.data.nilai_4} download>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  name="nilai_4"
+                >
+                  DOWNLOAD NILAI TINGKAT EMPAT
+                </button>
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -177,4 +204,4 @@ const mapStateToProps = state => ({
   user: state.Auth.user
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(withRouter(Profile));

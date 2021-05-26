@@ -1,6 +1,8 @@
+import Hashids from "hashids";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Http from "../Http";
+import Profile from "./Profile";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -25,45 +27,45 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    // Http.get(`${this.api}?status=open`)
-    //   .then(response => {
-    //     const { data } = response.data;
-    //     this.setState({
-    //       data,
-    //       error: false
-    //     });
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       error: "Unable to fetch data."
-    //     });
-    //   });
+    Http.get(`${this.api}/${this.props.user.id}`)
+      .then(response => {
+        const { data } = response.data;
+        // const apiMore = response.data.links.next;
+        this.setState({
+          data
+        });
+      })
+      .catch(() => {
+        this.setState({
+          error: "Unable to fetch data."
+        });
+      });
   }
 
   handleChange = e => {
     const { name, value } = e.target;
 
     this.setState({ [name]: value });
-    console.log(this.state);
+    // console.log(this.state);
+  };
+
+  handleChangeFile = e => {
+    const { name } = e.target;
+
+    var data = new FormData();
+    var imagedata = e.target.files[0];
+    data.append("data", imagedata);
+    console.log(data);
+    this.setState({ [name]: data });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    Http.post(this.api, {
-      nama: this.state.nama,
-      ttl: this.state.ttl,
-      sekolah: this.state.sekolah,
-      telepon: this.state.telepon,
-      alamat: this.state.alamat,
-      unit: this.state.unit,
-      status: this.state.status,
-      profil: this.state.profil,
-      akte: this.state.akte
-    })
+    Http.post(this.api, this.state)
       .then(() => {
         // const allTodos = [newItem, ...this.state.data];
         // this.setState({ data: allTodos, todo: null });
-        this.todoForm.reset();
+        // this.todoForm.reset();
       })
       .catch(() => {
         this.setState({
@@ -91,131 +93,120 @@ class Dashboard extends Component {
   // };
 
   render() {
-    const { data, error } = this.state;
     if (this.props.user.id !== "VolejRejNm") {
-      return (
-        <div className="container py-5">
-          <div className="add-todos mb-5">
-            <h1 className="text-center mb-4">Form Peserta UKT Tapak Suci</h1>
-            <form
-              method="post"
-              onSubmit={this.handleSubmit}
-              ref={el => {
-                this.todoForm = el;
-              }}
-            >
-              <div class="mb-3">
-                <label class="form-label">Nama</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name="nama"
-                  placeholder="Masukan Nama Anda"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Tempat, Tanggal Lahir</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name="ttl"
-                  placeholder="Masukan Tempat, Tanggal Lahir Anda"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Asal Sekolah</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name="sekolah"
-                  placeholder="Masukan Asal Sekolah Anda"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Nomor Telepon</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name="telepon"
-                  placeholder="Masukan Nomor Telepon Anda"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Alamat</label>
-                <textarea
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name="alamat"
-                  rows="3"
-                  placeholder="Masukan Alamat Anda"
-                  required
-                ></textarea>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Unit Latihan</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={this.handleChange}
-                  name="unit"
-                  placeholder="Masukan Unit Latihan Anda"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="formFile" class="form-label">
-                  Foto Profil
-                </label>
-                <input
-                  class="form-control"
-                  type="file"
-                  name="profil"
-                  onChange={this.handleChange}
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="formFile" class="form-label">
-                  Foto Akte Kelahiran
-                </label>
-                <input
-                  class="form-control"
-                  type="file"
-                  name="akte"
-                  onChange={this.handleChange}
-                  required
-                />
-              </div>
-              <button className="btn btn-primary" type="submit">
-                SUBMIT
-              </button>
-              {/* <div className="form-group">
-                <label htmlFor="addTodo">Add a New To Do</label>
-                <div className="d-flex">
+      if (this.state.data) {
+        return <Profile />;
+      } else {
+        return (
+          <div className="container py-5">
+            <div className="add-todos mb-5">
+              <h1 className="text-center mb-4">Form Peserta UKT Tapak Suci</h1>
+              <form
+                method="post"
+                onSubmit={this.handleSubmit}
+                ref={el => {
+                  this.todoForm = el;
+                }}
+                enctype="multipart/form-data"
+              >
+                <div class="mb-3">
+                  <label class="form-label">Nama</label>
                   <input
-                    id="addTodo"
-                    name="todo"
-                    className="form-control mr-3"
-                    placeholder="Build a To Do app..."
+                    type="text"
+                    className="form-control"
                     onChange={this.handleChange}
+                    name="nama"
+                    placeholder="Masukan Nama Anda"
+                    required
                   />
-                  <button type="submit" className="btn btn-primary">
-                    Add
-                  </button>
                 </div>
-              </div> */}
-            </form>
+                <div class="mb-3">
+                  <label class="form-label">Tempat, Tanggal Lahir</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="ttl"
+                    placeholder="Masukan Tempat, Tanggal Lahir Anda"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Asal Sekolah</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="sekolah"
+                    placeholder="Masukan Asal Sekolah Anda"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Nomor Telepon</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="telepon"
+                    placeholder="Masukan Nomor Telepon Anda"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Alamat</label>
+                  <textarea
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="alamat"
+                    rows="3"
+                    placeholder="Masukan Alamat Anda"
+                    required
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Unit Latihan</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="unit"
+                    placeholder="Masukan Unit Latihan Anda"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">
+                    Foto Profil
+                  </label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    name="profil"
+                    onChange={this.handleChangeFile}
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">
+                    Foto Akte Kelahiran
+                  </label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    name="akte"
+                    onChange={this.handleChangeFile}
+                    required
+                  />
+                </div>
+                <button className="btn btn-primary" type="submit">
+                  SUBMIT
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     } else {
       return (
         <div className="container py-5">

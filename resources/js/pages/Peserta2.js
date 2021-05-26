@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import Http from "../Http";
 
-class Peserta extends Component {
+class Peserta2 extends Component {
   constructor(props) {
     super(props);
 
@@ -38,25 +38,6 @@ class Peserta extends Component {
       });
   }
 
-  deleteTodo = e => {
-    const { key } = e.target.dataset;
-    const { data: todos } = this.state;
-
-    Http.delete(`${this.api}/${key}`)
-      .then(response => {
-        if (response.status === 204) {
-          const index = todos.findIndex(
-            todo => parseInt(todo.id, 10) === parseInt(key, 10)
-          );
-          const update = [...todos.slice(0, index), ...todos.slice(index + 1)];
-          this.setState({ data: update });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   render() {
     const { error } = this.state;
     const todos = Array.from(this.state.data);
@@ -83,17 +64,16 @@ class Peserta extends Component {
               if (user.peserta_created_at !== null) {
                 return (
                   <tr key={user.id}>
-                    {/*                  */}
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>
-                      <a href={`../${user.user}`}>
+                      <a href={`../nilai/${user.user}`}>
                         <button
                           type="button"
                           className="btn btn-secondary"
                           data-key={user.id}
                         >
-                          Detail
+                          Input Nilai
                         </button>
                       </a>
                     </td>
@@ -113,4 +93,4 @@ const mapStateToProps = state => ({
   user: state.Auth.user
 });
 
-export default connect(mapStateToProps)(Peserta);
+export default connect(mapStateToProps)(Peserta2);

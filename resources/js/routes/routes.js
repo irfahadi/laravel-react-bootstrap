@@ -9,6 +9,9 @@ import NoMatch from "../pages/NoMatch";
 import Siswa from "../pages/Siswa";
 import Peserta from "../pages/Peserta";
 import Profile from "../pages/Profile";
+import Jadwal from "../pages/Jadwal";
+import Nilai from "../pages/Nilai";
+import Peserta2 from "../pages/Peserta2";
 
 const routes = [
   {
@@ -59,6 +62,24 @@ const routes = [
     exact: true,
     auth: true,
     component: Peserta
+  },
+  {
+    path: "/jadwal",
+    exact: true,
+    auth: true,
+    component: Jadwal
+  },
+  {
+    path: "/nilai",
+    exact: true,
+    auth: true,
+    component: Peserta2
+  },
+  {
+    path: "/nilai/:id",
+    exact: true,
+    auth: true,
+    component: Nilai
   },
   {
     path: "/:id",

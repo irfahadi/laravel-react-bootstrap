@@ -38,18 +38,29 @@ class Siswa extends Component {
       });
   }
 
-  deleteuser = e => {
+  verifikasiuser = e => {
     const { key } = e.target.dataset;
-    const { data: users } = this.state;
-
-    Http.delete(`${this.api}/${key}`)
-      .then(response => {
-        if (response.status === 204) {
-          const index = users.findIndex(
-            user => parseInt(user.id, 10) === parseInt(key, 10)
-          );
-          const update = [...users.slice(0, index), ...users.slice(index + 1)];
-          this.setState({ data: update });
+    this.setState({
+      loading: true
+    });
+    Http.put(`${this.api}/${key}`)
+      .then(async response => {
+        if (response.status === 200) {
+          await Http.get(this.api)
+            .then(response => {
+              const { data } = response.data;
+              this.setState({
+                data,
+                // apiMore,
+                loading: false,
+                error: false
+              });
+            })
+            .catch(() => {
+              this.setState({
+                error: "Unable to fetch data."
+              });
+            });
         }
       })
       .catch(error => {
@@ -78,6 +89,7 @@ class Siswa extends Component {
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
             {users.map(user => (
               <tr key={user.id}>
@@ -88,14 +100,20 @@ class Siswa extends Component {
                   {user.email_verified_at === null
                     ? "Belum Verifikasi"
                     : "Sudah Verifikasi"}
-                  {/* <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={this.deleteuser}
-                    data-key={user.id}
-                  >
-                    Delete
-                  </button> */}
+                </td>
+                <td>
+                  {user.email_verified_at === null ? (
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={this.verifikasiuser}
+                      data-key={user.id}
+                    >
+                      Verifikasi
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </td>
               </tr>
             ))}
