@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2021 at 01:31 PM
+-- Generation Time: May 26, 2021 at 05:21 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -111,8 +111,8 @@ CREATE TABLE `todos` (
 --
 
 INSERT INTO `todos` (`created_at`, `updated_at`, `id`, `user_id`, `nama`, `ttl`, `sekolah`, `telepon`, `alamat`, `unit`, `status`, `jadwal_id`, `nilai_dasar`, `nilai_1`, `nilai_2`, `nilai_3`, `nilai_4`, `profil`, `akte`) VALUES
-('2021-05-01 13:28:26', '2021-05-16 11:14:14', 1, 1, 'Irfan Fahmi Ahmadi', 'Puralaksana, 03 Juni 1997', 'Smansaga', '08080808080', 'Jl. Lintas Liwa gg. Pasar Kamis', 'Lampung Barat', 'Tingkat Dasar', 1, 'Profile.pdf', 'tis', '0', '0', '0', 'images/react.jpeg', 'images/react.jpeg'),
-('2021-05-02 22:38:49', '2021-05-02 22:38:49', 2, 7, 'Irfan Fahmi', 'Puralaksana, 03 Juni 1997', 'SMANSAGA', '09090909090', 'jln', 'Way Tenong', 'Tingkat Dasar', 0, '', '', '', '', '', 'C:\\fakepath\\98984.jpg', 'C:\\fakepath\\98984.jpg');
+('2021-05-01 13:28:26', '2021-05-23 07:54:30', 1, 1, 'Irfan Fahmi Ahmadi', 'Puralaksana, 03 Juni 1997', 'Smansaga', '08080808080', 'Jl. Lintas Liwa gg. Pasar Kamis', 'Lampung Barat', 'Tingkat Dasar', 2, 'Profile.pdf', 'tis', '0', '0', '0', 'images/react.jpeg', 'images/react.jpeg'),
+('2021-05-02 22:38:49', '2021-05-23 07:54:54', 2, 7, 'Irfan Fahmi', 'Puralaksana, 03 Juni 1997', 'SMANSAGA', '09090909090', 'jln', 'Way Tenong', 'Tingkat Dasar', 2, '', '', '', '', '', 'C:\\fakepath\\98984.jpg', 'C:\\fakepath\\98984.jpg');
 
 -- --------------------------------------------------------
 
@@ -128,21 +128,23 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `peserta_created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`created_at`, `updated_at`, `id`, `name`, `email`, `password`, `remember_token`, `email_verified_at`) VALUES
-('2021-04-28 13:37:18', '2021-04-28 13:37:18', 1, 'User Test', 'user@test.dev', '$2y$10$E.8xIkjkXzc6q6fnE1mddexKyxosezhoD.ghUk0simP..Dkn/fraG', NULL, '2021-05-01 03:12:45'),
-('2021-04-28 13:37:18', '2021-05-14 23:44:04', 2, 'Austin Durgan II', 'kellen.kuhn@example.org', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:44:04'),
-('2021-04-28 13:37:18', '2021-05-14 23:45:33', 3, 'Theodora Buckridge', 'hilbert.cummerata@example.org', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:45:33'),
-('2021-04-28 13:37:18', '2021-05-14 23:45:50', 4, 'Mr. Vernon Stokes', 'feeney.daija@example.net', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:45:50'),
-('2021-04-28 13:37:18', '2021-05-14 23:51:35', 5, 'Mary Fahey', 'clifford.johns@example.net', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:51:35'),
-('2021-04-28 13:37:18', '2021-04-28 13:37:18', 6, 'Mr. Buddy King', 'dovie40@example.net', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'UlwqTjePWK', NULL),
-('2021-04-28 16:03:53', '2021-04-28 16:03:53', 7, 'agas', 'irfangamer@gmail.com', '$2y$10$TLqBVJtsh/Rip2sNP5uCku19cUvxhk.ALgGCGSx2lOOTNxMOPvP.u', NULL, '2021-05-02 07:19:07');
+INSERT INTO `users` (`created_at`, `updated_at`, `id`, `name`, `email`, `password`, `remember_token`, `email_verified_at`, `peserta_created_at`) VALUES
+('2021-04-28 13:37:18', '2021-04-28 13:37:18', 1, 'User Test', 'user@test.dev', '$2y$10$E.8xIkjkXzc6q6fnE1mddexKyxosezhoD.ghUk0simP..Dkn/fraG', NULL, '2021-05-01 03:12:45', '2021-05-23 13:33:25'),
+('2021-04-28 13:37:18', '2021-05-14 23:44:04', 2, 'Austin Durgan II', 'kellen.kuhn@example.org', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:44:04', NULL),
+('2021-04-28 13:37:18', '2021-05-14 23:45:33', 3, 'Theodora Buckridge', 'hilbert.cummerata@example.org', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:45:33', NULL),
+('2021-04-28 13:37:18', '2021-05-14 23:45:50', 4, 'Mr. Vernon Stokes', 'feeney.daija@example.net', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:45:50', NULL),
+('2021-04-28 13:37:18', '2021-05-14 23:51:35', 5, 'Mary Fahey', 'clifford.johns@example.net', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-14 23:51:35', NULL),
+('2021-04-28 13:37:18', '2021-05-16 14:53:24', 6, 'Mr. Buddy King', 'dovie40@example.net', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', NULL, '2021-05-16 14:53:24', NULL),
+('2021-04-28 16:03:53', '2021-04-28 16:03:53', 7, 'agas', 'irfangamer@gmail.com', '$2y$10$TLqBVJtsh/Rip2sNP5uCku19cUvxhk.ALgGCGSx2lOOTNxMOPvP.u', NULL, '2021-05-02 07:19:07', '2021-05-23 13:33:33'),
+('2021-05-23 05:21:01', '2021-05-23 05:21:01', 8, 'ncang', 'ncang@ncing.com', '$2y$10$3c9CithlOfdRw90jZs/7AOMenJVDzBGLiqCj2lnsM4Os1mcxyyD8u', NULL, '2021-05-23 05:21:16', NULL);
 
 --
 -- Indexes for dumped tables
@@ -199,13 +201,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `todos`
 --
 ALTER TABLE `todos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
