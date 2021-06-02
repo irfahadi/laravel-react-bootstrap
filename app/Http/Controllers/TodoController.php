@@ -171,7 +171,34 @@ class TodoController extends ApiController
         // }
 
         try {
-            $todo = Todo::where('id', $id)->firstOrFail();
+            $todo = Todo::where('user_id', Hasher::decode($id))->firstOrFail();
+            if (request('nama')) {
+                $todo->nama = request('nama');
+            }
+            if (request('akte')) {
+                $todo->akte = request('akte');
+            }
+            if (request('alamat')) {
+                $todo->alamat = request('alamat');
+            }
+            if (request('profil')) {
+                $todo->profil = request('profil');
+            }
+            if (request('sekolah')) {
+                $todo->sekolah = request('sekolah');
+            }
+            if (request('status')) {
+                $todo->status = request('status');
+            }
+            if (request('telepon')) {
+                $todo->telepon = request('telepon');
+            }
+            if (request('ttl')) {
+                $todo->ttl = request('ttl');
+            }
+            if (request('unit')) {
+                $todo->unit = request('unit');
+            }
             if (request('nilai_dasar')) {
                 $todo->nilai_dasar = request('nilai_dasar');
             }

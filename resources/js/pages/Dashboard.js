@@ -1,4 +1,3 @@
-import Hashids from "hashids";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Http from "../Http";
@@ -25,6 +24,21 @@ class Dashboard extends Component {
     // API endpoint.
     this.api = "/api/v1/todo";
   }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    Http.post(this.api, this.state)
+      .then(() => {
+        // const allTodos = [newItem, ...this.state.data];
+        // this.setState({ data: allTodos, todo: null });
+        // this.todoForm.reset();
+      })
+      .catch(() => {
+        this.setState({
+          error: "Sorry, there was an error saving your to do."
+        });
+      });
+  };
 
   componentDidMount() {
     Http.get(`${this.api}/${this.props.user.id}`)
@@ -58,39 +72,6 @@ class Dashboard extends Component {
     console.log(data);
     this.setState({ [name]: data });
   };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    Http.post(this.api, this.state)
-      .then(() => {
-        // const allTodos = [newItem, ...this.state.data];
-        // this.setState({ data: allTodos, todo: null });
-        // this.todoForm.reset();
-      })
-      .catch(() => {
-        this.setState({
-          error: "Sorry, there was an error saving your to do."
-        });
-      });
-  };
-
-  // closeTodo = e => {
-  //   const { key } = e.target.dataset;
-  //   const { data: todos } = this.state;
-
-  //   Http.patch(`${this.api}/${key}`, { status: "closed" })
-  //     .then(() => {
-  //       const updatedTodos = todos.filter(
-  //         todo => todo.id !== parseInt(key, 10)
-  //       );
-  //       this.setState({ data: updatedTodos });
-  //     })
-  //     .catch(() => {
-  //       this.setState({
-  //         error: "Sorry, there was an error closing your to do."
-  //       });
-  //     });
-  // };
 
   render() {
     if (this.props.user.id !== "VolejRejNm") {
@@ -213,7 +194,11 @@ class Dashboard extends Component {
           <div className="container">
             <h2 className="text-center mb-4">Dashboard Admin</h2>
             <div className="row row-cols-2 ">
-              <div className="col p-2 d-flex justify-content-center ">
+              <div
+                className="col p-2 d-flex justify-content-center "
+                onClick={() => (window.location.href = "/siswa")}
+                style={{ cursor: "pointer" }}
+              >
                 <div
                   style={{ width: 300, textAlign: "center" }}
                   className="rounded bg-primary text-white p-5"
@@ -221,7 +206,11 @@ class Dashboard extends Component {
                   <h4>Daftar Siswa Tapak Suci</h4>
                 </div>
               </div>
-              <div className="col p-2 d-flex justify-content-center">
+              <div
+                className="col p-2 d-flex justify-content-center"
+                onClick={() => (window.location.href = "/peserta")}
+                style={{ cursor: "pointer" }}
+              >
                 <div
                   style={{ width: 300, textAlign: "center" }}
                   className="rounded bg-success text-white p-5"
@@ -229,7 +218,11 @@ class Dashboard extends Component {
                   <h4>Peserta UKT Tapak Suci</h4>
                 </div>
               </div>
-              <div className="col p-2 d-flex justify-content-center">
+              <div
+                className="col p-2 d-flex justify-content-center"
+                onClick={() => (window.location.href = "/jadwal")}
+                style={{ cursor: "pointer" }}
+              >
                 <div
                   style={{ width: 300, textAlign: "center" }}
                   className="rounded bg-warning text-dark p-5"
@@ -237,7 +230,11 @@ class Dashboard extends Component {
                   <h4>Jadwal UKT Tapak Suci</h4>
                 </div>
               </div>
-              <div className="col p-2 d-flex justify-content-center">
+              <div
+                className="col p-2 d-flex justify-content-center"
+                onClick={() => (window.location.href = "/nilai")}
+                style={{ cursor: "pointer" }}
+              >
                 <div
                   style={{ width: 300, textAlign: "center" }}
                   className="rounded bg-info text-dark p-5"

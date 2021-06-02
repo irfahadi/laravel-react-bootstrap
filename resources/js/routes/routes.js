@@ -11,7 +11,8 @@ import Peserta from "../pages/Peserta";
 import Profile from "../pages/Profile";
 import Jadwal from "../pages/Jadwal";
 import Nilai from "../pages/Nilai";
-import Peserta2 from "../pages/Peserta2";
+import NilaiDetail from "../pages/NilaiDetail";
+import Update from "../pages/Update";
 
 const routes = [
   {
@@ -73,13 +74,19 @@ const routes = [
     path: "/nilai",
     exact: true,
     auth: true,
-    component: Peserta2
+    component: Nilai
   },
   {
     path: "/nilai/:id",
     exact: true,
     auth: true,
-    component: Nilai
+    component: NilaiDetail
+  },
+  {
+    path: "/update/:id",
+    exact: true,
+    auth: true,
+    component: Update
   },
   {
     path: "/:id",

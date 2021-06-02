@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
 import Http from "../Http";
 import ModalDaftar from "../components/Modal";
 import PropTypes from "prop-types";
@@ -13,7 +12,6 @@ class Profile extends Component {
     this.state = {
       loading: true,
       data: {},
-      moreLoaded: false,
       error: false
     };
 
@@ -46,16 +44,14 @@ class Profile extends Component {
   }
 
   render() {
+    const id =
+      this.props.location.pathname.replace("/", "") || this.props.user.id;
     return (
       <div className="container emp-profile">
         <div className="row">
           <div className="col-md-4">
             <div className="profile-img">
-              <img src={this.state.data.profil} alt="" />
-              {/* <div className="file btn btn-lg btn-primary">
-                  Change Photo
-                  <input type="file" name="file" />
-                </div> */}
+              <img src={`profil/${this.state.data.profil}`} alt="" />
             </div>
           </div>
           <div className="col-md-8">
@@ -112,15 +108,15 @@ class Profile extends Component {
           <div className="col-md-6">
             <h6 className="text-center">Foto Akte Kelahiran</h6>
             <div className="profile-img ">
-              <img src={this.state.data.akte} alt="" />
+              <img src={`akte/${this.state.data.akte}`} alt="" />
             </div>
           </div>
           <div className="col-md-2 mt-2">
             <input
-              type="submit"
               className="btn btn-primary"
               name="btnAddMore"
               value="EDIT PROFIL"
+              onClick={() => (window.location.href = "/update/" + id)}
             />
           </div>
         </div>
@@ -130,7 +126,7 @@ class Profile extends Component {
           </div>
           <div className="col-md-2">
             {this.state.data.nilai_dasar !== `` && (
-              <a href={this.state.data.nilai_dasar} download>
+              <a href={`nilai/${this.state.data.nilai_dasar}`} download>
                 <button
                   className="btn btn-primary"
                   type="button"
@@ -143,7 +139,7 @@ class Profile extends Component {
           </div>
           <div className="col-md-2">
             {this.state.data.nilai_1 !== `` && (
-              <a href={this.state.data.nilai_1} download>
+              <a href={`nilai/${this.state.data.nilai_1}`} download>
                 <button
                   className="btn btn-primary"
                   type="button"
@@ -156,7 +152,7 @@ class Profile extends Component {
           </div>
           <div className="col-md-2">
             {this.state.data.nilai_2 !== `` && (
-              <a href={this.state.data.nilai_2} download>
+              <a href={`nilai/${this.state.data.nilai_2}`} download>
                 <button
                   className="btn btn-primary"
                   type="button"
@@ -169,7 +165,7 @@ class Profile extends Component {
           </div>
           <div className="col-md-2">
             {this.state.data.nilai_3 !== `` && (
-              <a href={this.state.data.nilai_3} download>
+              <a href={`nilai/${this.state.data.nilai_3}`} download>
                 <button
                   className="btn btn-primary"
                   type="button"
@@ -182,7 +178,7 @@ class Profile extends Component {
           </div>
           <div className="col-md-2">
             {this.state.data.nilai_4 !== `` && (
-              <a href={this.state.data.nilai_4} download>
+              <a href={`nilai/${this.state.data.nilai_4}`} download>
                 <button
                   className="btn btn-primary"
                   type="button"
