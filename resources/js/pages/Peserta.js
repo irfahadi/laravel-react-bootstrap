@@ -17,10 +17,15 @@ class Peserta extends Component {
 
     // API Endpoint
     this.api = "/api/v1/user";
+    this.api2 = "/api/v1/todo";
   }
 
   componentDidMount() {
-    Http.get(`${this.api}`)
+    this.getTodo();
+  }
+
+  getTodo = async () => {
+    await Http.get(`${this.api}`)
       .then(response => {
         const { data } = response.data;
         // const apiMore = response.data.links.next;
@@ -36,23 +41,15 @@ class Peserta extends Component {
           error: "Unable to fetch data."
         });
       });
-  }
+  };
 
-  deleteTodo = e => {
+  deleteTodo = async e => {
     const { key } = e.target.dataset;
-    const { data: todos } = this.state;
-
-    Http.delete(`${this.api}/${key}`)
-      .then(response => {
-        if (response.status === 204) {
-          const index = todos.findIndex(
-            todo => parseInt(todo.id, 10) === parseInt(key, 10)
-          );
-          const update = [...todos.slice(0, index), ...todos.slice(index + 1)];
-          this.setState({ data: update });
-        }
+    await Http.delete(`${this.api2}/${key}`)
+      .then(() => {
+        this.getTodo();
       })
-      .catch(error => {
+      .catch(() => {
         console.log(error);
       });
   };
@@ -96,6 +93,14 @@ class Peserta extends Component {
                           Detail
                         </button>
                       </a>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        data-key={user.id}
+                        onClick={this.deleteTodo}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 );

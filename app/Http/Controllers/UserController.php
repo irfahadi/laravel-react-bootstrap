@@ -146,9 +146,9 @@ class UserController extends ApiController
         $User = User::where('id', $id)->firstOrFail();
 
         // User can only delete their own data.
-        if ($User->user_id !== $user->id) {
-            return $this->responseUnauthorized();
-        }
+        // if ($User->user_id !== $user->id) {
+        //     return $this->responseUnauthorized();
+        // }
 
         try {
             $User->delete();

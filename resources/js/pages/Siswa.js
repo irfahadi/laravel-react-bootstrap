@@ -20,7 +20,11 @@ class Siswa extends Component {
   }
 
   componentDidMount() {
-    Http.get(this.api)
+    this.getUser();
+  }
+
+  getUser = async () => {
+    await Http.get(this.api)
       .then(response => {
         const { data } = response.data;
         // const apiMore = response.data.links.next;
@@ -36,7 +40,18 @@ class Siswa extends Component {
           error: "Unable to fetch data."
         });
       });
-  }
+  };
+
+  deleteUser = async e => {
+    const { key } = e.target.dataset;
+    await Http.delete(`${this.api}/${key}`)
+      .then(() => {
+        this.getUser();
+      })
+      .catch(() => {
+        console.log(error);
+      });
+  };
 
   verifikasiuser = e => {
     const { key } = e.target.dataset;
@@ -69,7 +84,7 @@ class Siswa extends Component {
   };
 
   render() {
-    const { loading, error, apiMore } = this.state;
+    const { error } = this.state;
     const users = Array.from(this.state.data);
 
     return (
@@ -114,6 +129,14 @@ class Siswa extends Component {
                   ) : (
                     <></>
                   )}
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={this.deleteUser}
+                    data-key={user.id}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

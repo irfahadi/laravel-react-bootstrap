@@ -10,6 +10,7 @@ use App\Http\Resources\TodoResource;
 use App\Todo;
 use App\User;
 use App\Custom\Hasher;
+use Carbon\Carbon;
 
 class TodoController extends ApiController
 {
@@ -68,19 +69,19 @@ class TodoController extends ApiController
         //     return $this->responseUnprocessable($validator->errors());
         // }
         $path = storage_path("app/public/upload");
-        var_dump($akte = $request->file("akte"));
-        if($request->hasFile("akte")){
-            global $save;
-            $akte = $request->file("akte");
+        // var_dump($akte = $request->file("akte"));
+        // if($request->hasFile("akte")){
+        //     global $save;
+        //     $akte = $request->file("akte");
 
-            $move = $akte->move($path."/"."akte/",$akte->getClientOriginalName());
+        //     $move = $akte->move($path."/"."akte/",$akte->getClientOriginalName());
 
-            $save = $path."/"."akte/".$akte->getClientOriginalName();
-        }
-        if($request->hasFile("profil")){
-        }
+        //     $save = $path."/"."akte/".$akte->getClientOriginalName();
+        // }
+        // if($request->hasFile("profil")){
+        // }
 
-        return dd($request->all());
+        // return dd($request->all());
 
         // Warning: Data isn't being fully sanitized yet.
         try {
@@ -100,8 +101,18 @@ class TodoController extends ApiController
                 'nilai_3' => '',
                 'nilai_4' => '',
                 'profil' => request('profil'),
-                'akte' => $save,
+                'akte' => request('akte'),
             ]);
+            try {
+                $User = User::where('id', $user->id)->firstOrFail();
+                // if (request('email_verified_at')) {
+                // }
+                $timestamp = $timestamp = Carbon::now();
+                $User->peserta_created_at = $timestamp->format('Y-m-d H:i:s');
+                $User->save();
+            } catch (Exception $e) {
+                return $this->responseServerError('Error updating resource.');
+            }
             return response()->json([
                 'status' => 201,
                 'message' => 'Resource created.',
@@ -109,18 +120,6 @@ class TodoController extends ApiController
             ], 201);
         } catch (Exception $e) {
             return $this->responseServerError('Error creating resource.');
-        }
-
-        try {
-            $User = User::where('id', $user->id)->firstOrFail();
-            // if (request('email_verified_at')) {
-            // }
-            $timestamp = $timestamp = Carbon::now();
-            $User->peserta_created_at = $timestamp->format('Y-m-d H:i:s');
-            $User->save();
-            return $this->responseResourceUpdated();
-        } catch (Exception $e) {
-            return $this->responseServerError('Error updating resource.');
         }
     }
 
@@ -232,16 +231,22 @@ class TodoController extends ApiController
      */
     public function destroy(Request $request, $id)
     {
+        // var_dump($id);
         // Get user from $request token.
         if (! $user = auth()->setRequest($request)->user()) {
             return $this->responseUnauthorized();
         }
 
-        $todo = Todo::where('id', $id)->firstOrFail();
+        $todo = Todo::where('user_id', $id)->firstOrFail();
 
-        // User can only delete their own data.
-        if ($todo->user_id !== $user->id) {
-            return $this->responseUnauthorized();
+        try {
+            $User = User::where('id', $id)->firstOrFail();
+            // if (request('email_verified_at')) {
+            // }
+            $User->peserta_created_at = null;
+            $User->save();
+        } catch (Exception $e) {
+            return $this->responseServerError('Error updating resource.');
         }
 
         try {

@@ -26,9 +26,11 @@ class Dashboard extends Component {
   }
 
   handleSubmit = e => {
+    console.log(this.state);
     e.preventDefault();
     Http.post(this.api, this.state)
       .then(() => {
+        window.location.href = "/";
         // const allTodos = [newItem, ...this.state.data];
         // this.setState({ data: allTodos, todo: null });
         // this.todoForm.reset();
@@ -65,12 +67,8 @@ class Dashboard extends Component {
 
   handleChangeFile = e => {
     const { name } = e.target;
-
-    var data = new FormData();
-    var imagedata = e.target.files[0];
-    data.append("data", imagedata);
-    console.log(data);
-    this.setState({ [name]: data });
+    // Update the state
+    this.setState({ [name]: event.target.files[0].name });
   };
 
   render() {
