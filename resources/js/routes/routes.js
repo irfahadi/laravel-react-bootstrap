@@ -71,7 +71,7 @@ const routes = [
     component: Jadwal
   },
   {
-    path: "/nilai",
+    path: "/nilaiall",
     exact: true,
     auth: true,
     component: Nilai

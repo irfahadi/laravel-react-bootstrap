@@ -230,7 +230,7 @@ class Dashboard extends Component {
               </div>
               <div
                 className="col p-2 d-flex justify-content-center"
-                onClick={() => (window.location.href = "/nilai")}
+                onClick={() => (window.location.href = "/nilaiall")}
                 style={{ cursor: "pointer" }}
               >
                 <div
