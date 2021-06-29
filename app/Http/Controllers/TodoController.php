@@ -215,6 +215,9 @@ class TodoController extends ApiController
             }
             if (request('jadwal_id')) {
                 $todo->jadwal_id = request('jadwal_id');
+            }      
+            if (request('ujian_tingkat')) {
+                $todo->ujian_tingkat = request('ujian_tingkat');
             }
             $todo->save();
             return $this->responseResourceUpdated();
