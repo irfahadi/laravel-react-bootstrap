@@ -25,7 +25,7 @@ class Peserta extends Component {
   }
 
   getTodo = async () => {
-    await Http.get(`${this.api}`)
+    await Http.get(`${this.api2}`)
       .then(response => {
         const { data } = response.data;
         // const apiMore = response.data.links.next;
@@ -72,23 +72,25 @@ class Peserta extends Component {
           <tbody>
             <tr>
               {/* <th>Time</th> */}
-              <th>Name</th>
-              <th>Email</th>
+              <th>Nama</th>
+              <th>Jadwal</th>
+              <th>Ujian Tingkat</th>
               <th>Action</th>
             </tr>
-            {todos.map(user => {
-              if (user.peserta_created_at !== null) {
+            {todos.map(todo => {
+              if (todo.peserta_created_at !== null) {
                 return (
-                  <tr key={user.id}>
+                  <tr key={todo.id}>
                     {/*                  */}
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
+                    <td>{todo.nama}</td>
+                    <td>{todo.jadwal}</td>
+                    <td>{todo.ujian_tingkat}</td>
                     <td>
-                      <a href={`../${user.user}`}>
+                      <a href={`../${todo.user}`}>
                         <button
                           type="button"
                           className="btn btn-secondary"
-                          data-key={user.id}
+                          data-key={todo.id}
                         >
                           Detail
                         </button>
@@ -96,7 +98,7 @@ class Peserta extends Component {
                       <button
                         type="button"
                         className="btn btn-danger"
-                        data-key={user.id}
+                        data-key={todo.id}
                         onClick={this.deleteTodo}
                       >
                         Delete

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use App\Custom\Hasher;
 
-class TodoResource extends ApiResource
+class TodoViewResource extends ApiResource
 {
     /**
      * Transform the resource into an array.
@@ -35,6 +35,7 @@ class TodoResource extends ApiResource
             'nilai_4' => $this->nilai_4,
             'profil' => $this->profil,
             'akte' => $this->akte,
+            'jadwal' => $this->jadwal,
         ];
     }
 }

@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\APIController;
 use App\Http\Resources\TodoCollection;
+use App\Http\Resources\TodoViewCollection;
 use App\Http\Resources\TodoResource;
+use App\Http\Resources\TodoViewResource;
 use App\Todo;
+use App\TodoView;
 use App\User;
 use App\Custom\Hasher;
 use Carbon\Carbon;
@@ -19,31 +22,31 @@ class TodoController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index(Request $request)
-    // {
-    //     // Get user from $request token.
-    //     if (! $user = auth()->setRequest($request)->user()) {
-    //         return $this->responseUnauthorized();
-    //     }
+    public function index(Request $request)
+    {
+        // Get user from $request token.
+        // if (! $user = auth()->setRequest($request)->user()) {
+        //     return $this->responseUnauthorized();
+        // }
 
-    //     $collection = Todo::all();
+        $collection = TodoView::all();
 
-    //     // // Check query string filters.
-    //     // if ($status = $request->query('status')) {
-    //     //     if ('open' === $status || 'closed' === $status) {
-    //     //         $collection = $collection->where('status', $status);
-    //     //     }
-    //     // }
+        // // Check query string filters.
+        // if ($status = $request->query('status')) {
+        //     if ('open' === $status || 'closed' === $status) {
+        //         $collection = $collection->where('status', $status);
+        //     }
+        // }
 
-    //     // $collection = $collection->latest()->paginate();
+        // $collection = $collection->latest()->paginate();
 
-    //     // // Appends "status" to pagination links if present in the query.
-    //     // if ($status) {
-    //     //     $collection = $collection->appends('status', $status);
-    //     // }
+        // // Appends "status" to pagination links if present in the query.
+        // if ($status) {
+        //     $collection = $collection->appends('status', $status);
+        // }
 
-    //     return new TodoCollection($collection);
-    // }
+        return new TodoViewCollection($collection);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -95,6 +98,7 @@ class TodoController extends ApiController
                 'unit' => request('unit'),
                 'status' => request('status'),
                 'jadwal_id' => 0,
+                'ujian_tingkat' => '',
                 'nilai_dasar' => '',
                 'nilai_1' => '',
                 'nilai_2' => '',
@@ -104,12 +108,12 @@ class TodoController extends ApiController
                 'akte' => request('akte'),
             ]);
             try {
-                $User = User::where('id', $user->id)->firstOrFail();
+                $Todo = Todo::where('id', $todo->id)->firstOrFail();
                 // if (request('email_verified_at')) {
                 // }
                 $timestamp = $timestamp = Carbon::now();
-                $User->peserta_created_at = $timestamp->format('Y-m-d H:i:s');
-                $User->save();
+                $Todo->peserta_created_at = $timestamp->format('Y-m-d H:i:s');
+                $Todo->save();
             } catch (Exception $e) {
                 return $this->responseServerError('Error updating resource.');
             }
@@ -215,7 +219,7 @@ class TodoController extends ApiController
             }
             if (request('jadwal_id')) {
                 $todo->jadwal_id = request('jadwal_id');
-            }      
+            }
             if (request('ujian_tingkat')) {
                 $todo->ujian_tingkat = request('ujian_tingkat');
             }
@@ -236,21 +240,21 @@ class TodoController extends ApiController
     {
         // var_dump($id);
         // Get user from $request token.
-        if (! $user = auth()->setRequest($request)->user()) {
-            return $this->responseUnauthorized();
-        }
+        // if (! $user = auth()->setRequest($request)->user()) {
+        //     return $this->responseUnauthorized();
+        // }
 
-        $todo = Todo::where('user_id', $id)->firstOrFail();
+        $todo = Todo::where('id', $id)->firstOrFail();
 
-        try {
-            $User = User::where('id', $id)->firstOrFail();
-            // if (request('email_verified_at')) {
-            // }
-            $User->peserta_created_at = null;
-            $User->save();
-        } catch (Exception $e) {
-            return $this->responseServerError('Error updating resource.');
-        }
+        // try {
+        //     $User = User::where('id', $id)->firstOrFail();
+        //     // if (request('email_verified_at')) {
+        //     // }
+        //     $User->peserta_created_at = null;
+        //     $User->save();
+        // } catch (Exception $e) {
+        //     return $this->responseServerError('Error updating resource.');
+        // }
 
         try {
             $todo->delete();
