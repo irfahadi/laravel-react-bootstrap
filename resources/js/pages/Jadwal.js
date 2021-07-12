@@ -17,9 +17,29 @@ class Jadwal extends Component {
   }
 
   componentDidMount() {
-    Http.get(`${this.api}`)
+    this.getTodo();
+  }
+  // componentDidMount() {
+  //   Http.get(`${this.api}`)
+  //     .then(response => {
+  //       const { data } = response.data;
+  //       this.setState({
+  //         Jadwal: data,
+  //         error: false
+  //       });
+  //     })
+  //     .catch(() => {
+  //       this.setState({
+  //         error: "Unable to fetch data."
+  //       });
+  //     });
+  // }
+
+  getTodo = async () => {
+    await Http.get(`${this.api}`)
       .then(response => {
         const { data } = response.data;
+        // const apiMore = response.data.links.next;
         this.setState({
           Jadwal: data,
           error: false
@@ -30,7 +50,18 @@ class Jadwal extends Component {
           error: "Unable to fetch data."
         });
       });
-  }
+  };
+
+  deleteJadwal = async e => {
+    const { key } = e.target.dataset;
+    await Http.delete(`${this.api}/${key}`)
+      .then(() => {
+        this.getTodo();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -108,12 +139,23 @@ class Jadwal extends Component {
               {/* <th>Time</th> */}
               <th>ID</th>
               <th>Jadwal</th>
+              <th>Action</th>
             </tr>
             {Jadwal.map(el => (
               <tr key={el.id}>
                 {/*                  */}
                 <td>{el.id}</td>
                 <td>{el.jadwal}</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    data-key={el.id}
+                    onClick={this.deleteJadwal}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

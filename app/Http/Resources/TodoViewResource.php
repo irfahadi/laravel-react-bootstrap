@@ -36,6 +36,7 @@ class TodoViewResource extends ApiResource
             'profil' => $this->profil,
             'akte' => $this->akte,
             'jadwal' => $this->jadwal,
+            'email' => $this->email,
         ];
     }
 }

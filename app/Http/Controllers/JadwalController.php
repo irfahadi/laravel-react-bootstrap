@@ -134,10 +134,10 @@ class JadwalController extends ApiController
 
         $Jadwal = Jadwal::where('id', $id)->firstOrFail();
 
-        // User can only delete their own data.
-        if ($Jadwal->user_id !== $user->id) {
-            return $this->responseUnauthorized();
-        }
+        // // User can only delete their own data.
+        // if ($Jadwal->user_id !== $user->id) {
+        //     return $this->responseUnauthorized();
+        // }
 
         try {
             $Jadwal->delete();

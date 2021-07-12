@@ -49,7 +49,7 @@ class Peserta extends Component {
       .then(() => {
         this.getTodo();
       })
-      .catch(() => {
+      .catch(error => {
         console.log(error);
       });
   };

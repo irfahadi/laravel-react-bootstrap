@@ -16,7 +16,7 @@ class Nilai extends Component {
     };
 
     // API Endpoint
-    this.api = "/api/v1/user";
+    this.api = "/api/v1/todo";
   }
 
   componentDidMount() {
@@ -64,7 +64,7 @@ class Nilai extends Component {
               if (user.peserta_created_at !== null) {
                 return (
                   <tr key={user.id}>
-                    <td>{user.name}</td>
+                    <td>{user.nama}</td>
                     <td>{user.email}</td>
                     <td>
                       <a href={`../nilai/${user.user}`}>
