@@ -8,7 +8,8 @@ class Jadwal extends Component {
 
     // Initial state.
     this.state = {
-      Jadwal: [],
+      searchString: "",
+      data: [],
       jadwal: null
     };
 
@@ -19,6 +20,12 @@ class Jadwal extends Component {
   componentDidMount() {
     this.getTodo();
   }
+
+  handleChangeSearch = e => {
+    this.setState({
+      searchString: e.target.value
+    });
+  };
   // componentDidMount() {
   //   Http.get(`${this.api}`)
   //     .then(response => {
@@ -41,7 +48,7 @@ class Jadwal extends Component {
         const { data } = response.data;
         // const apiMore = response.data.links.next;
         this.setState({
-          Jadwal: data,
+          data: data,
           error: false
         });
       })
@@ -100,7 +107,19 @@ class Jadwal extends Component {
       });
   };
   render() {
-    const { Jadwal, error } = this.state;
+    const { data, error } = this.state;
+
+    let _data = Array.from(this.state.data);
+    let search = this.state.searchString.trim();
+    // console.log(search);
+    if (search.length > 0) {
+      _data = Array.from(
+        _data.filter(function(data) {
+          return data.jadwal.match(search);
+        })
+      );
+      // console.log(_data);
+    }
     return (
       <div className="container py-5">
         <div className="add-todos mb-5">
@@ -126,6 +145,13 @@ class Jadwal extends Component {
               SUBMIT
             </button>
           </form>
+          <br></br>
+          <input
+            type="text"
+            value={this.state.searchString}
+            onChange={this.handleChangeSearch}
+            placeholder="type name here"
+          />
         </div>
         {error && (
           <div className="text-center">
@@ -141,7 +167,7 @@ class Jadwal extends Component {
               <th>Jadwal</th>
               <th>Action</th>
             </tr>
-            {Jadwal.map(el => (
+            {_data.map(el => (
               <tr key={el.id}>
                 {/*                  */}
                 <td>{el.id}</td>

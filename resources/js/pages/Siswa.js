@@ -10,6 +10,7 @@ class Siswa extends Component {
     this.state = {
       loading: true,
       data: {},
+      searchString: "",
       apiMore: "",
       moreLoaded: false,
       error: false
@@ -22,6 +23,11 @@ class Siswa extends Component {
   componentDidMount() {
     this.getUser();
   }
+  handleChange = e => {
+    this.setState({
+      searchString: e.target.value
+    });
+  };
 
   getUser = async () => {
     await Http.get(this.api)
@@ -86,9 +92,26 @@ class Siswa extends Component {
   render() {
     const { error } = this.state;
     const users = Array.from(this.state.data);
+    let _data = Array.from(this.state.data);
 
+    let search = this.state.searchString.trim().toLowerCase();
+    // console.log(search);
+    if (search.length > 0) {
+      _data = Array.from(
+        _data.filter(function(data) {
+          return data.name.toLowerCase().match(search);
+        })
+      );
+      // console.log(_data);
+    }
     return (
       <div className="container py-5">
+        <input
+          type="text"
+          value={this.state.searchString}
+          onChange={this.handleChange}
+          placeholder="type name here"
+        />
         <h1 className="text-center mb-4">Daftar Siswa Tapak Suci</h1>
         {console.log(this.state.data)}
         {error && (
@@ -106,7 +129,7 @@ class Siswa extends Component {
               <th>Status</th>
               <th>Action</th>
             </tr>
-            {users.map(user => (
+            {_data.map(user => (
               <tr key={user.id}>
                 {/*                  */}
                 <td>{user.name}</td>

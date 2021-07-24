@@ -10,11 +10,11 @@ class Peserta extends Component {
     this.state = {
       loading: true,
       data: {},
+      searchString: "",
       apiMore: "",
       moreLoaded: false,
       error: false
     };
-
     // API Endpoint
     this.api = "/api/v1/user";
     this.api2 = "/api/v1/todo";
@@ -23,6 +23,12 @@ class Peserta extends Component {
   componentDidMount() {
     this.getTodo();
   }
+
+  handleChange = e => {
+    this.setState({
+      searchString: e.target.value
+    });
+  };
 
   getTodo = async () => {
     await Http.get(`${this.api2}`)
@@ -57,9 +63,28 @@ class Peserta extends Component {
   render() {
     const { error } = this.state;
     const todos = Array.from(this.state.data);
+    let _data = Array.from(this.state.data);
+
+    let search = this.state.searchString.trim().toLowerCase();
+    // console.log(search);
+    if (search.length > 0) {
+      _data = Array.from(
+        _data.filter(function(data) {
+          return data.nama.toLowerCase().match(search);
+        })
+      );
+      // console.log(_data);
+    }
 
     return (
       <div className="container py-5">
+        <input
+          type="text"
+          value={this.state.searchString}
+          onChange={this.handleChange}
+          placeholder="type name here"
+        />
+
         <h1 className="text-center mb-4">Peserta UKT Tapak Suci</h1>
 
         {error && (
@@ -68,8 +93,8 @@ class Peserta extends Component {
           </div>
         )}
 
-        <table className="table">
-          <tbody>
+        <table className="table" id="root">
+          <thead>
             <tr>
               {/* <th>Time</th> */}
               <th>Nama</th>
@@ -77,7 +102,9 @@ class Peserta extends Component {
               <th>Ujian Tingkat</th>
               <th>Action</th>
             </tr>
-            {todos.map(todo => {
+          </thead>
+          <tbody>
+            {_data.map(todo => {
               if (todo.peserta_created_at !== null) {
                 return (
                   <tr key={todo.id}>
