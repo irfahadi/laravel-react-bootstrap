@@ -122,6 +122,15 @@ class Peserta extends Component {
                           Detail
                         </button>
                       </a>
+                      <a href={`../generate/${todo.id}`}>
+                        <button
+                          type="button"
+                          className="btn btn-warning"
+                          data-key={todo.id}
+                        >
+                          PDF
+                        </button>
+                      </a>
                       <button
                         type="button"
                         className="btn btn-danger"

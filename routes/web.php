@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GenerateController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -8,6 +11,8 @@
 | Here is where the routes are registered for our application.
 |
 */
+
+Route::get('/generate/{id}', [GenerateController::class, 'generatePDF']);
 
 // Named route required for SendsPasswordResetEmails.
 Route::get('reset-password', function() {
