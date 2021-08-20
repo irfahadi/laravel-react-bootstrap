@@ -79,7 +79,7 @@ class Dashboard extends Component {
         return (
           <div className="container py-5">
             <div className="add-todos mb-5">
-              <h1 className="text-center mb-4">Form Peserta UKT Tapak Suci</h1>
+              <h1 className="text-center mb-4">Form Data Siswa Tapak Suci</h1>
               <form
                 method="post"
                 onSubmit={this.handleSubmit}

@@ -114,7 +114,7 @@ class Home extends Component {
                 />
               </div>
               <div className="section-login col-lg-6">
-                <h4>Log in Dengan Email Anda</h4>
+                <h4>Log In Dengan Akun Anda</h4>
 
                 <div className="card-login card mb-3">
                   <div className="card-body">
