@@ -40,7 +40,6 @@ class Header extends Component {
                   Account
                 </DropdownToggle>
                 <DropdownMenu right>
-                  {/* <DropdownItem>Settings</DropdownItem> */}
                   <DropdownItem divider />
                   <DropdownItem onClick={this.handleLogout}>
                     Log Out
