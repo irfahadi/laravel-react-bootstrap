@@ -14,4 +14,12 @@ class GenerateController extends Controller
         // download PDF file with download method
         return $pdf->download('profil.pdf');
     }
+    public function generateAll(Request $request) {
+        $todo = Todo::all();
+         // share data to view
+        view()->share('todo',$todo);
+        $pdf = PDF::loadView('table', $todo);
+        // download PDF file with download method
+        return $pdf->download('profilAll.pdf');
+    }
 }

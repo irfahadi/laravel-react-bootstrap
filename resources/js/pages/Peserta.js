@@ -93,6 +93,16 @@ class Peserta extends Component {
           </div>
         )}
 
+        <a href={`../generate`}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            style={{ float: "right" }}
+          >
+            Cetak PDF
+          </button>
+        </a>
+
         <table className="table" id="root">
           <thead>
             <tr>

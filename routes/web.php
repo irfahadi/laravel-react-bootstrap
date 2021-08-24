@@ -11,8 +11,10 @@ use App\Http\Controllers\GenerateController;
 | Here is where the routes are registered for our application.
 |
 */
-
+Route::get('/generate', [GenerateController::class, 'generateAll']);
 Route::get('/generate/{id}', [GenerateController::class, 'generatePDF']);
+
+
 
 // Named route required for SendsPasswordResetEmails.
 Route::get('reset-password', function() {
