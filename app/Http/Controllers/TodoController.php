@@ -29,7 +29,7 @@ class TodoController extends ApiController
         //     return $this->responseUnauthorized();
         // }
 
-        $collection = TodoView::all();
+        $collection = TodoView::orderBy('id','desc')->get();
 
         // // Check query string filters.
         // if ($status = $request->query('status')) {

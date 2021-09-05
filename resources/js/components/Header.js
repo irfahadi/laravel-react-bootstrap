@@ -21,7 +21,10 @@ class Header extends Component {
   render() {
     return (
       <header className="d-flex align-items-center justify-content-between">
-        <h1 className="logo my-0 font-weight-normal h3">
+        <h1
+          className="logo my-0 font-weight-normal h3"
+          style={{ marginLeft: 300 }}
+        >
           <Link to="/" style={{ color: "red" }}>
             PIMDA 204 TAPAK SUCI LAMPUNG TIMUR
           </Link>

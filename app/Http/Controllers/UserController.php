@@ -24,7 +24,7 @@ class UserController extends ApiController
             return $this->responseUnauthorized();
         }
 
-        $collection = User::all();
+        $collection = User::orderBy('id','desc')->get();
         // var_dump($collection);
 
         // $collection = $collection->paginate();
