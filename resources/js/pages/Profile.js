@@ -49,20 +49,35 @@ class Profile extends Component {
     return (
       <div className="container emp-profile">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="profile-img">
               <img src={`profil/${this.state.data.profil}`} alt="" />
             </div>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-3">
             <div className="profile-head">
               <h5>{this.state.data.nama}</h5>
               <h6>{this.state.data.status}</h6>
             </div>
           </div>
+          <div className="col-md-3">
+            <h6 className="text-center">Foto Akte Kelahiran</h6>
+            <div className="profile-img ">
+              <img src={`akte/${this.state.data.akte}`} alt="" />
+            </div>
+          </div>
+          <div className="col-md-3">
+            <button
+              className="btn btn-primary"
+              name="btnAddMore"
+              onClick={() => (window.location.href = "/update/" + id)}
+            >
+              EDIT PROFIL
+            </button>
+          </div>
         </div>
         <div className="row mt-2">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="tab-content profile-tab" id="myTabContent">
               <div
                 className="tab-pane fade show active mt-4"
@@ -104,20 +119,6 @@ class Profile extends Component {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-6">
-            <h6 className="text-center">Foto Akte Kelahiran</h6>
-            <div className="profile-img ">
-              <img src={`akte/${this.state.data.akte}`} alt="" />
-            </div>
-          </div>
-          <div className="col-md-2 mt-2">
-            <input
-              className="btn btn-primary"
-              name="btnAddMore"
-              value="EDIT PROFIL"
-              onClick={() => (window.location.href = "/update/" + id)}
-            />
           </div>
         </div>
         <div className="row mt-2">
